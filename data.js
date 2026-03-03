@@ -27,7 +27,7 @@ window.L2_DATA = {
     },
     "Dreamcatcher": {
       activities: { siege: 8, valakas: 1, antharas: 2, frintezza: 3, zaken: 1, antQueen: 1, orfen: 2, core: 3 },
-      bought:     { frintezza: 1 }
+      bought:     {  }
     },
     "RichWildee": {
       activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
@@ -36,6 +36,26 @@ window.L2_DATA = {
     "MONARXIDOS": {
       activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
       bought:     { zaken: 1 }
+    },
+    "IiSusHristos": {
+      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
+      bought:     {  }
+    },
+    "AgainstALL": {
+      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
+      bought:     {  }
+    },
+    "Sammy": {
+      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
+      bought:     {  }
+    },
+    "Area51XxX": {
+      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
+      bought:     {  }
+    },
+    "Psolemporas": {
+      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
+      bought:     {  }
     }
   }
 };

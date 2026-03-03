@@ -13,23 +13,23 @@ window.L2_DATA = {
     }
   },
   players: {
-    "DarkLord": {
+    "Mrundisput3d": {
       activities: { siege: 4, valakas: 2, antharas: 1, frintezza: 2, zaken: 1, antQueen: 3, orfen: 1, core: 1 },
       bought:     { orfen: 1, core: 1 }
     },
-    "IronVeil": {
+    "Fidempor12": {
       activities: { siege: 6, valakas: 2, antharas: 2, frintezza: 1, zaken: 2, antQueen: 2, orfen: 2, core: 1 },
       bought:     { core: 1, orfen: 1 }
     },
-    "ShadowBane": {
+    "GRP": {
       activities: { siege: 4, valakas: 3, antharas: 3, frintezza: 1, zaken: 1, antQueen: 2, orfen: 1, core: 1 },
       bought:     { antQueen: 1 }
     },
-    "CrimsonSeer": {
+    "Dreamcatcher": {
       activities: { siege: 8, valakas: 1, antharas: 2, frintezza: 3, zaken: 1, antQueen: 1, orfen: 2, core: 3 },
       bought:     { frintezza: 1 }
     },
-    "NullEdge": {
+    "RichWildee": {
       activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
       bought:     { zaken: 1 }
     }

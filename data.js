@@ -66,3 +66,4 @@ players: {
     bought: { }
   }
 }
+};

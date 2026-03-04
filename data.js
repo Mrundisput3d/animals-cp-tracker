@@ -12,50 +12,58 @@ window.L2_DATA = {
       core:      { label: "Core",         points: 2.25, jewelCost: 35,   image: "images/ring-of-core.png"      }
     }
   },
-  players: {
-    "Mrundisput3d": {
-      activities: { siege: 4, valakas: 2, antharas: 1, frintezza: 2, zaken: 1, antQueen: 3, orfen: 1, core: 1 },
-      bought:     { zaken: 1 }
-    },
-    "Fidempor12": {
-      activities: { siege: 6, valakas: 2, antharas: 2, frintezza: 1, zaken: 2, antQueen: 2, orfen: 2, core: 1 },
-      bought:     {  }
-    },
-    "GRP": {
-      activities: { siege: 4, valakas: 3, antharas: 3, frintezza: 1, zaken: 1, antQueen: 2, orfen: 1, core: 1 },
-      bought:     {  }
-    },
-    "Dreamcatcher": {
-      activities: { siege: 8, valakas: 1, antharas: 2, frintezza: 3, zaken: 1, antQueen: 1, orfen: 2, core: 3 },
-      bought:     {  }
-    },
-    "RichWildee": {
-      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
-      bought:     {  }
-    },
-    "MONARXIDOS": {
-      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
-      bought:     { zaken: 1 }
-    },
-    "IiSusHristos": {
-      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
-      bought:     {  }
-    },
-    "AgainstALL": {
-      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
-      bought:     {  }
-    },
-    "Sammy": {
-      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
-      bought:     {  }
-    },
-    "Area51XxX": {
-      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
-      bought:     {  }
-    },
-    "Psolemporas": {
-      activities: { siege: 5, valakas: 2, antharas: 2, frintezza: 2, zaken: 3, antQueen: 2, orfen: 2, core: 1 },
-      bought:     {  }
+ players: {
+  "Mrundisput3d": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 2, zaken: 4, antQueen: 5, orfen: 2, core: 3, baium: 2 },
+    bought:     { zaken: 1 }
+  },
+  "Fidempor12": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 3, antQueen: 2, orfen: 1, core: 0, baium: 2 },
+    bought:     {  }
+  },
+  "GRP": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 1, antQueen: 0, orfen: 0, core: 0, baium: 1 },
+    bought:     {  }
+  },
+  "Dreamcatcher": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 3, antQueen: 3, orfen: 1, core: 1, baium: 2 },
+    bought:     {  }
+  },
+  "RichWildee": {
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 1, zaken: 2, antQueen: 3, orfen: 1, core: 1, baium: 1 },
+    bought:     {  }
+  },
+  "MONARXIDOS": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 3, antQueen: 3, orfen: 1, core: 1, baium: 2 },
+    bought:     { zaken: 1 }
+  },
+  "IiSusHristos": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 1, antQueen: 0, orfen: 1, core: 0, baium: 1 },
+    bought:     {  }
+  },
+  "AgainstALL": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 2, zaken: 2, antQueen: 3, orfen: 0, core: 1, baium: 2 },
+    bought:     {  }
+  },
+  "Sammy": {
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
+    bought:     {  }
+  },
+  "Area51XxX": {
+    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 2, antQueen: 3, orfen: 1, core: 0, baium: 1 },
+    bought:     {  }
+  },
+  "Psolemporas": {
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
+    bought:     {  }
+  },
+  "SunnyLeone": {
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
+    bought:     {  }
+  },
+  "Lpan": {
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 1, baium: 0 },
+    bought:     {  }
     }
   }
 };

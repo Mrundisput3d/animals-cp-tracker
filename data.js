@@ -14,47 +14,47 @@ window.L2_DATA = {
   },
 players: {
   "Mrundisput3d": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 5, zaken: 3, antQueen: 3, orfen: 6, core: 2, baium: 3 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { zaken: 1 }
   },
   "Fidempor12": {
-    activities: { siege: 2, valakas: 2, antharas: 1, frintezza: 2, zaken: 0, antQueen: 1, orfen: 4, core: 2, baium: 3 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "GRP": {
-    activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 0, zaken: 0, antQueen: 1, orfen: 2, core: 0, baium: 2 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "Dreamcatcher": {
-    activities: { siege: 3, valakas: 1, antharas: 1, frintezza: 5, zaken: 4, antQueen: 5, orfen: 6, core: 3, baium: 3 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "RichWildee": {
-    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 2, zaken: 2, antQueen: 4, orfen: 3, core: 2, baium: 2 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "MONARXIDOS": {
-    activities: { siege: 2, valakas: 1, antharas: 1, frintezza: 2, zaken: 3, antQueen: 4, orfen: 3, core: 3, baium: 3 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 3, baium: 0 },
     bought: { zaken: 1 }
   },
   "IiSusHristos": {
-    activities: { siege: 2, valakas: 1, antharas: 0, frintezza: 2, zaken: 1, antQueen: 1, orfen: 4, core: 2, baium: 2 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "AgainstALL": {
-    activities: { siege: 1, valakas: 0, antharas: 1, frintezza: 3, zaken: 2, antQueen: 2, orfen: 0, core: 1, baium: 2 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "Sammy": {
-    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 1, baium: 0 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 1, baium: 0 },
     bought: { }
   },
   "Area51XxX": {
-    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 1, orfen: 1, core: 0, baium: 0 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "Psolemporas": {
-    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 2, baium: 1 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "SunnyLeone": {
@@ -62,7 +62,7 @@ players: {
     bought: { }
   },
   "Lpan": {
-    activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 1, zaken: 2, antQueen: 3, orfen: 2, core: 2, baium: 2 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
     }
   }

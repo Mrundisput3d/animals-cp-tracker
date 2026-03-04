@@ -64,8 +64,6 @@ players: {
   "Lpan": {
     activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 1, zaken: 2, antQueen: 3, orfen: 2, core: 2, baium: 2 },
     bought: { }
-  }
-}
     }
   }
 };

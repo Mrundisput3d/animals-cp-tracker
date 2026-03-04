@@ -29,7 +29,7 @@ players: {
     activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 4, zaken: 4, antQueen: 7, orfen: 5, core: 2, baium: 4 },
     bought: { }
   },
-  "RichWildee": {
+  "Hollister": {
     activities: { siege: 1, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 4, orfen: 4, core: 2, baium: 4 },
     bought: { }
   },

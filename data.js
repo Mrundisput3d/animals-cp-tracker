@@ -46,7 +46,7 @@ players: {
     bought: { }
   },
   "Sammy": {
-    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 0, baium: 0 },
+    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 20, baium: 0 },
     bought: { }
   },
   "Area51XxX": {
@@ -54,7 +54,7 @@ players: {
     bought: { }
   },
   "Psolemporas": {
-    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 1, baium: 1 },
+    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 21, baium: 1 },
     bought: { }
   },
   "SunnyLeone": {

@@ -14,7 +14,7 @@ window.L2_DATA = {
   },
 players: {
   "Mrundisput3d": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 7, antQueen: 10, orfen: 6, core: 5, baium: 5 },
+    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 7, antQueen: 10, orfen: 6, core: 4, baium: 3 },
     bought: { zaken: 1 }
   },
   "Fidempor12": {
@@ -22,27 +22,27 @@ players: {
     bought: { }
   },
   "GRP": {
-    activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 0, zaken: 2, antQueen: 3, orfen: 1, core: 0, baium: 3 },
+    activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 0, zaken: 2, antQueen: 3, orfen: 1, core: 0, baium: 2 },
     bought: { }
   },
   "Dreamcatcher": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 4, zaken: 4, antQueen: 7, orfen: 5, core: 2, baium: 4 },
+    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 4, zaken: 4, antQueen: 7, orfen: 5, core: 2, baium: 3 },
     bought: { }
   },
-  "Hollister": {
-    activities: { siege: 1, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 4, orfen: 4, core: 2, baium: 4 },
+  "HOLLISTER": {
+    activities: { siege: 1, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 4, orfen: 4, core: 2, baium: 3 },
     bought: { }
   },
   "MONARXIDOS": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 4, antQueen: 5, orfen: 4, core: 2, baium: 4 },
+    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 4, antQueen: 5, orfen: 4, core: 2, baium: 3 },
     bought: { zaken: 1 }
   },
   "IiSusHristos": {
-    activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 2, zaken: 4, antQueen: 2, orfen: 3, core: 1, baium: 3 },
+    activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 2, zaken: 4, antQueen: 2, orfen: 3, core: 1, baium: 2 },
     bought: { }
   },
   "AgainstALL": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 5, zaken: 3, antQueen: 6, orfen: 0, core: 1, baium: 4 },
+    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 5, zaken: 3, antQueen: 6, orfen: 0, core: 1, baium: 2 },
     bought: { }
   },
   "Sammy": {

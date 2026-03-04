@@ -34,7 +34,7 @@ players: {
     bought: { }
   },
   "MONARXIDOS": {
-    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 3, baium: 0 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { zaken: 1 }
   },
   "IiSusHristos": {
@@ -46,7 +46,7 @@ players: {
     bought: { }
   },
   "Sammy": {
-    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 1, baium: 0 },
+    activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0 },
     bought: { }
   },
   "Area51XxX": {

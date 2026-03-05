@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Animals CP - Live</title>
+  <title>Animals CP - Live Leaderboard</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -40,7 +40,12 @@
     .rank-3 { color: #cd7f32; text-shadow: 0 0 12px rgba(205, 127, 50, 0.4); }
     .gold-border { border: 1px solid rgba(201, 162, 39, 0.3); }
     .item-hover:hover { background: rgba(201, 162, 39, 0.08); transition: all 0.3s ease; }
-    .rule-bullet { color: #c9a227; margin-right: 8px; font-weight: bold; }
+    
+    /* Scrollbar Styling */
+    #lb-wrapper::-webkit-scrollbar { width: 5px; }
+    #lb-wrapper::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    #lb-wrapper::-webkit-scrollbar-thumb { background: #c9a227; border-radius: 10px; }
+
     .loading-overlay { position: fixed; inset: 0; background: #0d0d0f; z-index: 200; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s; }
   </style>
 </head>
@@ -48,25 +53,26 @@
 
   <div id="loader" class="loading-overlay font-display text-[#c9a227] text-xl">LOADING CLAN DATA...</div>
 
-  <header class="relative z-10 py-10 px-8 border-b border-[#3d3020] bg-black/40">
-    <div class="flex flex-col items-center gap-4">
-      <img src="images/animals.png" alt="Logo" class="h-36 w-auto object-contain animate-float [filter:drop-shadow(0_0_15px_rgba(201,162,39,0.4))]">
-      <div class="text-center">
-        <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] [text-shadow:0_0_20_rgba(201,162,39,0.3)]">Animals CP</h1>
-        <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070] mt-1.5 font-semibold">Elite Activity Tracker</p>
-      </div>
-    </div>
+  <header class="relative z-10 py-10 px-8 border-b border-[#3d3020] bg-black/40 text-center">
+    <img src="images/animals.png" alt="Logo" class="h-32 w-auto mx-auto mb-4 object-contain animate-float drop-shadow-[0_0_15px_rgba(201,162,39,0.3)]">
+    <h1 class="font-display text-4xl font-bold tracking-[0.1em] text-[#c9a227]">Animals CP</h1>
+    <p class="font-heading text-[10px] tracking-[0.4em] uppercase text-[#6b6070] mt-1">Elite Activity Tracker</p>
   </header>
 
   <main class="relative z-10 max-w-6xl mx-auto px-4 py-12 animate-fade-up">
+    
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
       <div class="lg:col-span-2">
         <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase mb-4 ml-2">Elite Rankings</h2>
-        <div id="leaderboard" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl overflow-hidden"></div>
+        <div id="lb-wrapper" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl overflow-y-auto max-h-[550px]">
+          <div id="leaderboard"></div>
+        </div>
       </div>
+
       <div class="lg:col-span-1">
         <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase mb-4 ml-2">Last Acquisitions</h2>
-        <div id="last-purchased" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl p-4 space-y-4"></div>
+        <div id="last-purchased" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl p-4 space-y-4 min-h-[200px]">
+           </div>
       </div>
     </div>
 
@@ -74,10 +80,10 @@
       <div class="bg-[#12121a]/90 gold-border rounded-sm p-6 shadow-2xl">
         <h2 class="font-heading text-[#c9a227] text-sm tracking-widest uppercase mb-4 border-b border-[#3d3020] pb-2 text-center font-bold">System Rules</h2>
         <ul class="space-y-3 font-body text-sm text-[#d4c9b0]/80">
-          <li class="flex items-start"><span class="rule-bullet">◆</span> Points earned through participation in Clan Activities.</li>
-          <li class="flex items-start"><span class="rule-bullet">◆</span> Epic Jewel purchases deduct the corresponding points.</li>
-          <li class="flex items-start"><span class="rule-bullet">◆</span> New Players: <b>+50 PTS</b> Starter Bonus.</li>
-          <li class="flex items-start"><span class="rule-bullet">◆</span> Click on a player to view detailed point history.</li>
+          <li><span class="text-[#c9a227] mr-2">◆</span> Points earned via Clan Activities participation.</li>
+          <li><span class="text-[#c9a227] mr-2">◆</span> Epic Jewel purchases deduct points automatically.</li>
+          <li><span class="text-[#c9a227] mr-2">◆</span> New Players: <b class="text-[#c9a227]">+50 PTS</b> Starter Bonus.</li>
+          <li><span class="text-[#c9a227] mr-2">◆</span> Click any player to see full point breakdown.</li>
         </ul>
       </div>
       <div id="jewels-section" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl overflow-hidden"></div>
@@ -85,14 +91,12 @@
   </main>
 
   <div id="modal-overlay" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
-    <div id="modal-content" class="bg-[#12121a] border border-[#c9a227]/40 w-full max-w-md animate-modal-in"></div>
+    <div id="modal-content" class="bg-[#12121a] border border-[#c9a227]/40 w-full max-w-md animate-modal-in shadow-2xl"></div>
   </div>
 
   <script>
-    // ΤΟ LINK ΣΟΥ
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6YT5pXR24ENKCgDZvYrbIUb54zmm9s5SHzeUQTVzxDty7c4mYAxXPbtJfSk-VaUWtaJQilFUR5W-t/pub?output=csv";
 
-    // Ρυθμίσεις Πόντων (Ιδια με πριν)
     const CONFIG = {
       activities: {
         siege: { label: "Castle Siege", points: 9 },
@@ -119,19 +123,15 @@
         document.getElementById('loader').style.opacity = '0';
         setTimeout(() => document.getElementById('loader').remove(), 500);
       } catch (err) {
-        console.error("Error loading sheet:", err);
         document.getElementById('loader').innerText = "ERROR LOADING DATA";
       }
     }
 
     function parseCSV(text) {
       const lines = text.split('\n').map(line => line.split(','));
-      const headers = lines[0].map(h => h.trim().toLowerCase());
-      
-      // Ξεκινάμε το διάβασμα από τη 2η γραμμή
       for (let i = 1; i < lines.length; i++) {
         const row = lines[i];
-        if (!row[0]) continue; // skip empty lines
+        if (!row[0]) continue;
 
         const name = row[0].trim();
         PLAYER_DATA[name] = {
@@ -148,8 +148,15 @@
             bonus: parseInt(row[10]) || 0
           },
           bought: {
-            // Αν έχεις στήλες για αγορές στο excel, τις βάζεις εδώ. 
-            // Προς το παρόν το αφήνω κενό αν δεν ξέρω τις στήλες.
+            // Υποθέτουμε ότι οι στήλες L έως S στο Excel (index 11-18) είναι οι αγορές
+            valakas: parseInt(row[11]) || 0,
+            antharas: parseInt(row[12]) || 0,
+            baium: parseInt(row[13]) || 0,
+            frintezza: parseInt(row[14]) || 0,
+            zaken: parseInt(row[15]) || 0,
+            antQueen: parseInt(row[16]) || 0,
+            orfen: parseInt(row[17]) || 0,
+            core: parseInt(row[18]) || 0
           }
         };
       }
@@ -157,47 +164,58 @@
 
     function calculatePoints(p) {
       let total = 0;
-      for (let key in p.activities) {
-        total += p.activities[key] * CONFIG.activities[key].points;
-      }
-      // Αφαίρεση αγορών (αν υπάρχουν)
-      for (let key in p.bought) {
-        if (CONFIG.activities[key].jewelCost) {
-            total -= p.bought[key] * CONFIG.activities[key].jewelCost;
-        }
-      }
+      for (let key in p.activities) total += p.activities[key] * CONFIG.activities[key].points;
+      for (let key in p.bought) if (CONFIG.activities[key].jewelCost) total -= p.bought[key] * CONFIG.activities[key].jewelCost;
       return total.toFixed(1);
     }
 
     function renderAll() {
       const lb = document.getElementById('leaderboard');
+      const lp = document.getElementById('last-purchased');
+      
       const sorted = Object.entries(PLAYER_DATA)
         .map(([name, info]) => ({ name, points: parseFloat(calculatePoints(info)), ...info }))
         .sort((a, b) => b.points - a.points);
 
+      // Render Leaderboard
       lb.innerHTML = sorted.map((p, i) => {
         const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
         const crown = i === 0 ? '<span class="text-2xl mr-2 animate-pulse">👑</span>' : '';
         return `
-        <div class="flex items-center justify-between p-5 border-b border-[#3d3020]/40 item-hover cursor-pointer animate-row-in" style="animation-delay: ${i * 0.05}s" onclick="openModal('${p.name}')">
+        <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/40 item-hover cursor-pointer animate-row-in" onclick="openModal('${p.name}')">
           <div class="flex items-center gap-4">
-            <span class="font-heading text-lg w-8 ${rankClass}">#${i + 1}</span>
-            <div class="flex items-center gap-2">
-              ${crown}
-              <span class="font-heading text-xl tracking-wide ${rankClass} uppercase">${p.name}</span>
+            <span class="font-heading text-sm w-6 ${rankClass}">#${i + 1}</span>
+            <div class="flex items-center gap-1">
+              ${crown}<span class="font-heading text-lg tracking-wide ${rankClass} uppercase">${p.name}</span>
             </div>
           </div>
-          <div class="font-display text-[#f3eacb] text-2xl font-bold">${p.points} <span class="text-[10px] text-[#c9a227] ml-1">PTS</span></div>
+          <div class="font-display text-[#f3eacb] text-xl font-bold">${p.points} <span class="text-[9px] text-[#c9a227] ml-1">PTS</span></div>
         </div>`;
       }).join('');
 
-      // Jewels Section
-      document.getElementById('jewels-section').innerHTML = `
-        <div class="p-4 bg-[#c9a227]/5 border-b border-[#3d3020] text-center font-heading text-sm tracking-widest text-[#c9a227] uppercase">Epic Armory</div>` + 
+      // Render Last Acquisitions (Από τα δεδομένα του Excel)
+      let history = [];
+      Object.entries(PLAYER_DATA).forEach(([name, info]) => {
+        Object.entries(info.bought).forEach(([jewel, count]) => {
+          if (count > 0) history.push({ name, jewel: CONFIG.activities[jewel] });
+        });
+      });
+
+      lp.innerHTML = history.length > 0 ? history.slice(-5).reverse().map(h => `
+        <div class="flex items-center gap-3 p-2 bg-black/40 rounded border border-[#3d3020]/30">
+          <img src="${h.jewel.image}" class="h-8 w-8 object-contain">
+          <div class="flex flex-col">
+            <span class="font-heading text-[11px] text-[#c9a227] leading-none uppercase">${h.name}</span>
+            <span class="text-[9px] uppercase text-[#6b6070] mt-1">Acquired ${h.jewel.label}</span>
+          </div>
+        </div>`).join('') : '<p class="text-center text-xs text-[#6b6070] py-4">No recent purchases found</p>';
+
+      // Armory Section
+      document.getElementById('jewels-section').innerHTML = `<div class="p-3 bg-[#c9a227]/10 border-b border-[#3d3020] text-center font-heading text-xs tracking-widest text-[#c9a227] uppercase font-bold">Epic Armory</div>` + 
         Object.entries(CONFIG.activities).filter(([k,v]) => v.jewelCost).map(([k,v]) => `
-          <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30 item-hover">
-            <div class="flex items-center gap-4"><img src="${v.image}" class="h-10 w-10 object-contain"><span class="font-heading text-xs tracking-widest uppercase text-[#6b6070]">${v.label}</span></div>
-            <div class="font-display text-[#c9a227] text-lg">${v.jewelCost}</div>
+          <div class="flex items-center justify-between p-3 border-b border-[#3d3020]/20 item-hover">
+            <div class="flex items-center gap-4"><img src="${v.image}" class="h-8 w-8 object-contain"><span class="font-heading text-[10px] tracking-widest uppercase text-[#6b6070]">${v.label}</span></div>
+            <div class="font-display text-[#c9a227] text-md font-bold">${v.jewelCost}</div>
           </div>`).join('');
     }
 
@@ -205,18 +223,23 @@
       const p = PLAYER_DATA[name];
       const modal = document.getElementById('modal-content');
       modal.innerHTML = `
-        <div class="p-6 border-b border-[#3d3020] flex justify-between items-center bg-gradient-to-r from-[#c9a227]/20 to-transparent">
-          <h3 class="font-display text-2xl text-[#f3eacb] uppercase">${name}</h3>
-          <button onclick="closeModal()" class="text-[#c9a227] hover:text-white text-3xl">✕</button>
+        <div class="p-4 border-b border-[#3d3020] flex justify-between items-center bg-gradient-to-r from-[#c9a227]/20 to-transparent">
+          <h3 class="font-display text-xl text-[#f3eacb] uppercase">${name}</h3>
+          <button onclick="closeModal()" class="text-[#c9a227] hover:text-white text-2xl">✕</button>
         </div>
-        <div class="p-8 max-h-[60vh] overflow-y-auto space-y-4">
+        <div class="p-6 max-h-[60vh] overflow-y-auto space-y-3">
           ${Object.entries(p.activities).filter(([k,v]) => v > 0).map(([k,v]) => `
-            <div class="flex justify-between items-center border-b border-[#3d3020]/20 pb-2">
-              <span class="font-heading text-sm text-[#6b6070] uppercase">${CONFIG.activities[k].label} (x${v})</span>
+            <div class="flex justify-between items-center border-b border-[#3d3020]/10 pb-2 text-sm uppercase font-heading">
+              <span class="text-[#6b6070]">${CONFIG.activities[k].label} (x${v})</span>
               <span class="text-[#f3eacb] font-bold">+${(v * CONFIG.activities[k].points).toFixed(1)}</span>
             </div>`).join('')}
+          ${Object.entries(p.bought).filter(([k,v]) => v > 0).map(([k,v]) => `
+            <div class="flex justify-between items-center text-red-500/80 italic text-sm border-b border-[#3d3020]/10 pb-2 font-heading">
+              <span>BOUGHT ${CONFIG.activities[k].label} (x${v})</span>
+              <span>-${v * CONFIG.activities[k].jewelCost}</span>
+            </div>`).join('')}
         </div>
-        <div class="p-6 bg-black/60 border-t border-[#c9a227]/30 text-right"><span class="font-display text-[#c9a227] text-3xl">${calculatePoints(p)} PTS</span></div>`;
+        <div class="p-4 bg-black/60 border-t border-[#c9a227]/30 text-right"><span class="font-display text-[#c9a227] text-2xl">${calculatePoints(p)} PTS</span></div>`;
       document.getElementById('modal-overlay').classList.remove('hidden');
     };
 

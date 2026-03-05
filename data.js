@@ -14,7 +14,7 @@ window.L2_DATA = {
   },
 players: {
   "Mrundisput3d": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 7, antQueen: 11, orfen: 6, core: 4, baium: 3 },
+    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 3, zaken: 7, antQueen: 11, orfen: 6, core: 4, baium: 3 },
     bought: { zaken: 1 }
   },
   "Fidempor12": {
@@ -42,7 +42,7 @@ players: {
     bought: { }
   },
   "AgainstALL": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 5, zaken: 3, antQueen: 6, orfen: 0, core: 1, baium: 2 },
+    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 6, zaken: 3, antQueen: 6, orfen: 0, core: 1, baium: 2 },
     bought: { }
   },
   "Sammy": {

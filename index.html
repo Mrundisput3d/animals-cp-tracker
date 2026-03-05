@@ -109,4 +109,85 @@
         "HOLLISTER":    { activities: { siege: 1, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 4, orfen: 4, core: 2, baium: 3, newPlayerBonus: 0 }, bought: { } },
         "Fidempor12":   { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 1, zaken: 4, antQueen: 2, orfen: 3, core: 1, baium: 3, newPlayerBonus: 0 }, bought: { } },
         "IiSusHristos": { activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 2, orfen: 3, core: 1, baium: 2, newPlayerBonus: 0 }, bought: { } },
-        "GRP":          { activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 0, zaken: 2, antQueen: 2, orfen: 1, core: 0, baium
+        "GRP":          { activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 0, zaken: 2, antQueen: 2, orfen: 1, core: 0, baium: 2, newPlayerBonus: 0 }, bought: { } },
+        "Sammy":        { activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 0, baium: 0, newPlayerBonus: 1 }, bought: { } },
+        "Psolemporas":  { activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 1, baium: 1, newPlayerBonus: 1 }, bought: { } },
+        "Area51XxX":    { activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 3, antQueen: 2, orfen: 1, core: 0, baium: 1, newPlayerBonus: 0 }, bought: { } },
+        "Lpan":         { activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 1, antQueen: 0, orfen: 2, core: 1, baium: 1, newPlayerBonus: 0 }, bought: { } },
+        "SunnyLeone":   { activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0, newPlayerBonus: 0 }, bought: { } }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const lb = document.getElementById('leaderboard');
+      const js = document.getElementById('jewels-section');
+      const overlay = document.getElementById('modal-overlay');
+      const modal = document.getElementById('modal-content');
+
+      const calculate = (p) => {
+        let t = 0;
+        for (let a in p.activities) if (L2_DATA.config.activities[a]) t += p.activities[a] * L2_DATA.config.activities[a].points;
+        for (let b in p.bought) if (L2_DATA.config.activities[b]) t -= p.bought[b] * L2_DATA.config.activities[b].jewelCost;
+        return t.toFixed(1);
+      };
+
+      const sorted = Object.entries(L2_DATA.players)
+        .map(([name, info]) => ({ name, points: parseFloat(calculate(info)), ...info }))
+        .sort((a, b) => b.points - a.points);
+
+      lb.innerHTML = sorted.map((p, i) => `
+        <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30 hover:bg-[#c9a227]/5 cursor-pointer animate-row-in" style="animation-delay: ${i * 0.05}s" onclick="openModal('${p.name}')">
+          <div class="flex items-center gap-4">
+            <span class="font-heading text-[#6b6070] w-6 text-sm">#${i + 1}</span>
+            <div class="flex items-center gap-2">
+              <span class="font-heading text-lg">${p.name}</span>
+              ${p.activities.newPlayerBonus > 0 ? `<img src="images/bonus-icon.png" class="h-5 w-5" title="New Player Bonus">` : ''}
+            </div>
+          </div>
+          <div class="font-display text-[#c9a227] text-xl">${p.points} pts</div>
+        </div>
+      `).join('');
+
+      js.innerHTML = Object.entries(L2_DATA.config.activities).filter(([k, v]) => v.jewelCost).map(([k, v]) => `
+          <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30">
+            <div class="flex items-center gap-4">
+              <img src="${v.image}" class="h-10 w-10 object-contain">
+              <span class="font-heading text-xs tracking-widest uppercase text-[#6b6070]">${v.label}</span>
+            </div>
+            <div class="font-body text-[#c9a227]">${v.jewelCost} pts</div>
+          </div>`).join('');
+
+      window.openModal = (name) => {
+        const p = L2_DATA.players[name];
+        modal.innerHTML = `
+          <div class="p-6 border-b border-[#3d3020] flex justify-between items-center bg-gradient-to-r from-[#c9a227]/10 to-transparent">
+            <h3 class="font-display text-2xl text-[#c9a227]">${name}</h3>
+            <button onclick="closeModal()" class="text-[#6b6070] hover:text-[#d4c9b0] font-heading text-2xl">✕</button>
+          </div>
+          <div class="p-6 max-h-[60vh] overflow-y-auto space-y-4">
+            ${Object.entries(p.activities).filter(([k,v]) => v > 0).map(([k,v]) => `
+              <div class="flex justify-between items-center text-sm border-b border-[#3d3020]/10 pb-2">
+                <span class="font-heading uppercase text-[#6b6070] tracking-wider">${L2_DATA.config.activities[k].label} (x${v})</span>
+                <span class="text-[#d4c9b0] font-bold">+${(v * L2_DATA.config.activities[k].points).toFixed(1)}</span>
+              </div>
+            `).join('')}
+            ${Object.entries(p.bought).length > 0 ? Object.entries(p.bought).map(([k,v]) => `
+              <div class="flex justify-between items-center text-sm text-red-400/70 italic border-b border-[#3d3020]/10 pb-2">
+                <span>Bought ${L2_DATA.config.activities[k].label} (x${v})</span>
+                <span>-${v * L2_DATA.config.activities[k].jewelCost}</span>
+              </div>
+            `).join('') : ''}
+          </div>
+          <div class="p-4 bg-black/40 border-t border-[#3d3020] text-right">
+            <span class="font-display text-[#c9a227] text-2xl">${calculate(p)} pts</span>
+          </div>
+        `;
+        overlay.classList.remove('hidden');
+      };
+
+      window.closeModal = () => overlay.classList.add('hidden');
+      overlay.onclick = (e) => { if(e.target === overlay) closeModal(); };
+    });
+  </script>
+</body>
+</html>

@@ -19,33 +19,12 @@
             body:    ['"IM Fell English"', 'serif'],
           },
           keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%':       { transform: 'translateY(-6px)' },
-            },
-            'fade-up': {
-              from: { opacity: '0', transform: 'translateY(16px)' },
-              to:   { opacity: '1', transform: 'translateY(0)' },
-            },
-            'row-in': {
-              from: { opacity: '0', transform: 'translateX(-8px)' },
-              to:   { opacity: '1', transform: 'translateX(0)' },
-            },
-            'ornament-pulse': {
-              '0%, 100%': { opacity: '0.35' },
-              '50%':       { opacity: '0.8' },
-            },
-            'modal-in': {
-              from: { opacity: '0', transform: 'scale(0.95) translateY(8px)' },
-              to:   { opacity: '1', transform: 'scale(1) translateY(0)' },
-            },
+            float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-6px)' } },
+            'fade-up': { from: { opacity: '0', transform: 'translateY(16px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
           },
           animation: {
-            float:            'float 6s ease-in-out infinite',
-            'fade-up':        'fade-up 0.8s ease both',
-            'row-in':         'row-in 0.35s ease both',
-            'ornament-pulse': 'ornament-pulse 4s ease-in-out infinite',
-            'modal-in':       'modal-in 0.2s ease both',
+            float: 'float 6s ease-in-out infinite',
+            'fade-up': 'fade-up 0.8s ease both',
           },
         },
       },
@@ -54,67 +33,104 @@
 </head>
 <body class="bg-[#0d0d0f] text-[#d4c9b0] font-body min-h-screen overflow-x-hidden">
 
-  <!-- Vignette -->
   <div class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.75)_100%)]"></div>
 
-  <!-- Header -->
   <header class="relative z-10 py-10 px-8 border-b border-[#3d3020] bg-gradient-to-b from-[#c9a227]/[0.04] to-transparent">
     <div class="flex flex-col items-center gap-4">
-      <img src="images/animals.png" alt="Animals CP logo"
-           class="h-36 w-auto object-contain rounded-xl animate-float [filter:drop-shadow(0_0_12px_rgba(201,162,39,0.5))]">
+      <img src="images/animals.png" alt="Animals CP logo" class="h-36 w-auto object-contain animate-float">
       <div class="text-center">
-        <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] leading-none
-                   [text-shadow:0_0_30px_rgba(201,162,39,0.5),0_0_60px_rgba(201,162,39,0.2),2px_2px_0_rgba(0,0,0,0.8)]">
-          Animals CP
-        </h1>
-        <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070] mt-1.5">
-          Activity Tracker &mdash; Season Rankings
-        </p>
+        <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] [text-shadow:0_0_30px_rgba(201,162,39,0.5)]">Animals CP</h1>
+        <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070] mt-1.5">Activity Tracker &mdash; Rankings</p>
       </div>
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 py-12 animate-fade-up">
-    <div id="leaderboard"
-         class="bg-[#12121a] border border-[#3d3020] rounded-sm overflow-hidden
-                shadow-[0_20px_60px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(201,162,39,0.08)]">
-      <p class="text-center py-12 font-heading text-xs tracking-[0.2em] uppercase text-[#6b6070] animate-ornament-pulse">
-        Loading rankings…
-      </p>
-    </div>
+  <main class="relative z-10 max-w-2xl mx-auto px-4 py-12 animate-fade-up">
+    <div id="leaderboard" class="bg-[#12121a] border border-[#3d3020] rounded-sm overflow-hidden shadow-2xl">
+      </div>
   </main>
 
-  <!-- Epic Jewels -->
-  <section class="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 pb-12">
-    <div id="jewels-section"
-         class="bg-[#12121a] border border-[#3d3020] rounded-sm overflow-hidden
-                shadow-[0_20px_60px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(201,162,39,0.08)]">
-    </div>
+  <section class="relative z-10 max-w-2xl mx-auto px-4 pb-12">
+    <div id="jewels-section" class="bg-[#12121a] border border-[#3d3020] rounded-sm overflow-hidden shadow-2xl">
+      </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="relative z-10 text-center py-8 px-6 border-t border-[#1e1a26]">
-    <span class="block text-[#8a6d1a] text-xs opacity-40 mb-2">◆ &nbsp; ◆ &nbsp; ◆</span>
-    <p class="font-heading text-xs tracking-wider text-[#6b6070]">
-      Data sourced from
-      <code class="font-mono text-[#8a6d1a] bg-[#c9a227]/[0.06] px-1.5 py-0.5 rounded border border-[#c9a227]/10">data.js</code>
-      &mdash; edit to update rankings
-    </p>
-  </footer>
-
   <script>
-    (function () {
-      var v = Date.now();
-      var d = document.createElement('script');
-      d.src = 'data.js?v=' + v;
-      d.onload = function () {
-        var s = document.createElement('script');
-        s.src = 'script.js?v=' + v;
-        document.body.appendChild(s);
+    // ΟΛΑ ΤΑ DATA ΕΔΩ ΜΕΣΑ
+    const L2_DATA = {
+      config: {
+        activities: {
+          siege: { label: "Castle Siege", points: 9 },
+          valakas: { label: "Valakas", points: 9, jewelCost: 600, image: "images/necklace-valakas.png" },
+          antharas: { label: "Antharas", points: 9, jewelCost: 350, image: "images/earring-antharas.png" },
+          baium: { label: "Baium", points: 9, jewelCost: 300, image: "images/ring-of-baium.png" },
+          frintezza: { label: "Frintezza", points: 4.5, jewelCost: 120, image: "images/frintezza-necklace.png" },
+          zaken: { label: "Zaken", points: 2.25, jewelCost: 100, image: "images/zaken-earring.png" },
+          antQueen: { label: "Ant Queen", points: 2.25, jewelCost: 90, image: "images/ring-of-queen-ant.png" },
+          orfen: { label: "Orfen", points: 2.25, jewelCost: 40, image: "images/earring-orfen.png" },
+          core: { label: "Core", points: 2.25, jewelCost: 35, image: "images/ring-of-core.png" },
+          newPlayerBonus: { label: "New Player Bonus", points: 50, image: "images/bonus-icon.png" }
+        }
+      },
+      players: {
+        "Mrundisput3d": { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 3, zaken: 6, antQueen: 9, orfen: 5, core: 4, baium: 3, newPlayerBonus: 0 }, bought: { zaken: 1 } },
+        "Dreamcatcher": { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 4, zaken: 3, antQueen: 7, orfen: 4, core: 2, baium: 3, newPlayerBonus: 0 }, bought: { } },
+        "MONARXIDOS":   { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 3, antQueen: 5, orfen: 4, core: 2, baium: 3, newPlayerBonus: 0 }, bought: { zaken: 1 } },
+        "AgainstALL":   { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 6, zaken: 3, antQueen: 5, orfen: 0, core: 1, baium: 2, newPlayerBonus: 0 }, bought: { } },
+        "HOLLISTER":    { activities: { siege: 1, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 4, orfen: 4, core: 2, baium: 3, newPlayerBonus: 0 }, bought: { } },
+        "Fidempor12":   { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 1, zaken: 4, antQueen: 2, orfen: 3, core: 1, baium: 3, newPlayerBonus: 0 }, bought: { } },
+        "IiSusHristos": { activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 2, orfen: 3, core: 1, baium: 2, newPlayerBonus: 0 }, bought: { } },
+        "GRP":          { activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 0, zaken: 2, antQueen: 2, orfen: 1, core: 0, baium: 2, newPlayerBonus: 0 }, bought: { } },
+        "Sammy":        { activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 0, baium: 0, newPlayerBonus: 1 }, bought: { } },
+        "Psolemporas":  { activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 1, baium: 1, newPlayerBonus: 1 }, bought: { } },
+        "Area51XxX":    { activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 3, antQueen: 2, orfen: 1, core: 0, baium: 1, newPlayerBonus: 0 }, bought: { } },
+        "Lpan":         { activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 1, antQueen: 0, orfen: 2, core: 1, baium: 1, newPlayerBonus: 0 }, bought: { } },
+        "SunnyLeone":   { activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0, newPlayerBonus: 0 }, bought: { } }
+      }
+    };
+
+    function render() {
+      const lb = document.getElementById('leaderboard');
+      const js = document.getElementById('jewels-section');
+      
+      const calculate = (p) => {
+        let t = 0;
+        for (let a in p.activities) if (L2_DATA.config.activities[a]) t += p.activities[a] * L2_DATA.config.activities[a].points;
+        for (let b in p.bought) if (L2_DATA.config.activities[b]) t -= p.bought[b] * L2_DATA.config.activities[b].jewelCost;
+        return t.toFixed(1);
       };
-      document.body.appendChild(d);
-    })();
+
+      const sorted = Object.entries(L2_DATA.players)
+        .map(([name, info]) => ({ name, points: parseFloat(calculate(info)), ...info }))
+        .sort((a, b) => b.points - a.points);
+
+      lb.innerHTML = sorted.map((p, i) => `
+        <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30 hover:bg-[#c9a227]/5">
+          <div class="flex items-center gap-4">
+            <span class="font-heading text-[#6b6070] w-6 text-sm">#${i + 1}</span>
+            <div class="flex items-center gap-2">
+              <span class="font-heading text-lg">${p.name}</span>
+              ${p.activities.newPlayerBonus > 0 ? `<img src="images/bonus-icon.png" class="h-5 w-5" title="New Player Bonus">` : ''}
+            </div>
+          </div>
+          <div class="font-display text-[#c9a227] text-xl">${p.points} pts</div>
+        </div>
+      `).join('');
+
+      js.innerHTML = Object.entries(L2_DATA.config.activities)
+        .filter(([k, v]) => v.jewelCost)
+        .map(([k, v]) => `
+          <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30">
+            <div class="flex items-center gap-4">
+              <img src="${v.image}" class="h-10 w-10 object-contain">
+              <span class="font-heading text-xs tracking-widest uppercase">${v.label}</span>
+            </div>
+            <div class="font-body text-[#c9a227]">${v.jewelCost} pts</div>
+          </div>
+        `).join('');
+    }
+    
+    document.addEventListener('DOMContentLoaded', render);
   </script>
 </body>
 </html>

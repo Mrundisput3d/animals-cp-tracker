@@ -14,7 +14,7 @@ window.L2_DATA = {
   },
 players: {
   "Mrundisput3d": {
-    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 7, antQueen: 10, orfen: 6, core: 4, baium: 3 },
+    activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 7, antQueen: 11, orfen: 6, core: 4, baium: 3 },
     bought: { zaken: 1 }
   },
   "Fidempor12": {
@@ -29,7 +29,7 @@ players: {
     activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 4, zaken: 4, antQueen: 7, orfen: 5, core: 2, baium: 3 },
     bought: { }
   },
-  "HOLLISTER": {
+  "HOLLISTER": { 
     activities: { siege: 1, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 4, orfen: 4, core: 2, baium: 3 },
     bought: { }
   },
@@ -46,7 +46,7 @@ players: {
     bought: { }
   },
   "Sammy": {
-    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 20, baium: 0 },
+    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 0, baium: 0 },
     bought: { }
   },
   "Area51XxX": {
@@ -54,7 +54,7 @@ players: {
     bought: { }
   },
   "Psolemporas": {
-    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 21, baium: 1 },
+    activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 1, baium: 1 },
     bought: { }
   },
   "SunnyLeone": {

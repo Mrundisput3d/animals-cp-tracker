@@ -38,28 +38,34 @@
   <div class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.75)_100%)]"></div>
 
   <header class="relative z-10 py-10 px-8 border-b border-[#3d3020] bg-gradient-to-b from-[#c9a227]/[0.04] to-transparent">
-    <div class="flex flex-col items-center gap-4 text-center">
-      <img src="images/animals.png" alt="Logo" class="h-36 w-auto object-contain animate-float">
-      <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] [text-shadow:0_0_30px_rgba(201,162,39,0.5)]">Animals CP</h1>
-      <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070]">Activity Tracker &mdash; Season Rankings</p>
+    <div class="flex flex-col items-center gap-4">
+      <img src="images/animals.png" alt="Animals CP logo" class="h-36 w-auto object-contain animate-float">
+      <div class="text-center">
+        <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] leading-none [text-shadow:0_0_30px_rgba(201,162,39,0.5)]">
+          Animals CP
+        </h1>
+        <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070] mt-1.5">Activity Tracker — Season Rankings</p>
+      </div>
     </div>
   </header>
 
   <main class="relative z-10 max-w-2xl mx-auto px-4 py-12 animate-fade-up">
-    <div id="leaderboard" class="bg-[#12121a] border border-[#3d3020] rounded-sm shadow-2xl overflow-hidden"></div>
+    <div id="leaderboard" class="bg-[#12121a] border border-[#3d3020] rounded-sm shadow-2xl overflow-hidden">
+      </div>
   </main>
 
   <section class="relative z-10 max-w-2xl mx-auto px-4 pb-12">
-    <div id="jewels-section" class="bg-[#12121a] border border-[#3d3020] rounded-sm shadow-2xl overflow-hidden"></div>
+    <div id="jewels-section" class="bg-[#12121a] border border-[#3d3020] rounded-sm shadow-2xl overflow-hidden">
+      </div>
   </section>
 
   <div id="modal-overlay" class="fixed inset-0 z-[100] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div id="modal-content" class="bg-[#12121a] border border-[#3d3020] w-full max-w-md animate-modal-in shadow-2xl">
-      </div>
+    <div id="modal-content" class="bg-[#12121a] border border-[#3d3020] w-full max-w-md animate-modal-in shadow-2xl relative">
+       </div>
   </div>
 
   <script>
-    // --- DATA ---
+    // --- ΤΑ ΔΕΔΟΜΕΝΑ ΣΟΥ ---
     const L2_DATA = {
       config: {
         activities: {
@@ -92,22 +98,26 @@
       }
     };
 
-    // --- SCRIPT ---
+    // --- ΟΛΗ Η ΛΟΓΙΚΗ (MODAL + RENDER) ---
     document.addEventListener('DOMContentLoaded', () => {
       const lb = document.getElementById('leaderboard');
       const js = document.getElementById('jewels-section');
       const overlay = document.getElementById('modal-overlay');
       const modal = document.getElementById('modal-content');
 
-      const calc = (p) => {
-        let t = 0;
-        for (let a in p.activities) if (L2_DATA.config.activities[a]) t += p.activities[a] * L2_DATA.config.activities[a].points;
-        for (let b in p.bought) if (L2_DATA.config.activities[b]) t -= p.bought[b] * L2_DATA.config.activities[b].jewelCost;
-        return t.toFixed(1);
+      const calculate = (player) => {
+        let total = 0;
+        for (let act in player.activities) {
+          if (L2_DATA.config.activities[act]) total += player.activities[act] * L2_DATA.config.activities[act].points;
+        }
+        for (let item in player.bought) {
+          if (L2_DATA.config.activities[item]) total -= player.bought[item] * L2_DATA.config.activities[item].jewelCost;
+        }
+        return total.toFixed(1);
       };
 
       const sorted = Object.entries(L2_DATA.players)
-        .map(([name, info]) => ({ name, points: parseFloat(calc(info)), ...info }))
+        .map(([name, info]) => ({ name, points: parseFloat(calculate(info)), ...info }))
         .sort((a, b) => b.points - a.points);
 
       // Render Leaderboard
@@ -117,25 +127,58 @@
             <span class="font-heading text-[#6b6070] w-6 text-sm">#${i + 1}</span>
             <div class="flex items-center gap-2">
               <span class="font-heading text-lg">${p.name}</span>
-              ${p.activities.newPlayerBonus > 0 ? `<img src="images/bonus-icon.png" class="h-5 w-5">` : ''}
+              ${p.activities.newPlayerBonus > 0 ? `<img src="images/bonus-icon.png" class="h-5 w-5" title="New Player Bonus">` : ''}
             </div>
           </div>
           <div class="font-display text-[#c9a227] text-xl">${p.points} pts</div>
         </div>
       `).join('');
 
-      // Render Jewels
-      js.innerHTML = Object.entries(L2_DATA.config.activities).filter(([k,v]) => v.jewelCost).map(([k, v]) => `
-          <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30">
+      // Render Armory
+      js.innerHTML = `<div class="p-4 bg-black/20 border-b border-[#3d3020] text-center font-heading text-xs tracking-widest text-[#c9a227] uppercase opacity-50">Epic Armory</div>` + 
+        Object.entries(L2_DATA.config.activities).filter(([k, v]) => v.jewelCost).map(([k, v]) => `
+          <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30 hover:bg-[#c9a227]/5">
             <div class="flex items-center gap-4">
               <img src="${v.image}" class="h-10 w-10 object-contain">
               <span class="font-heading text-xs tracking-widest uppercase">${v.label}</span>
             </div>
             <div class="font-body text-[#c9a227]">${v.jewelCost} pts</div>
-          </div>`).join('');
+          </div>
+        `).join('');
 
-      // Modal Logic
+      // Modal Functions
       window.openModal = (name) => {
         const p = L2_DATA.players[name];
         modal.innerHTML = `
-          <div class="p-6 border-b border-[#3d3020] flex justify-between items-center bg-gradient-to-
+          <div class="p-6 border-b border-[#3d3020] flex justify-between items-center bg-gradient-to-r from-[#c9a227]/10 to-transparent">
+            <h3 class="font-display text-2xl text-[#c9a227]">${name}</h3>
+            <button onclick="closeModal()" class="text-[#6b6070] hover:text-[#d4c9b0] font-heading text-2xl">✕</button>
+          </div>
+          <div class="p-6 max-h-[60vh] overflow-y-auto space-y-4">
+            ${Object.entries(p.activities).filter(([k,v]) => v > 0).map(([k,v]) => `
+              <div class="flex justify-between items-center text-sm border-b border-[#3d3020]/20 pb-2">
+                <span class="font-heading uppercase text-[#6b6070] tracking-wider">${L2_DATA.config.activities[k].label} (x${v})</span>
+                <span class="text-[#d4c9b0] font-bold">+${(v * L2_DATA.config.activities[k].points).toFixed(1)}</span>
+              </div>
+            `).join('')}
+            ${Object.entries(p.bought).length > 0 ? Object.entries(p.bought).map(([k,v]) => `
+              <div class="flex justify-between items-center text-sm text-red-400 italic border-b border-[#3d3020]/20 pb-2">
+                <span>Purchased ${L2_DATA.config.activities[k].label} (x${v})</span>
+                <span>-${v * L2_DATA.config.activities[k].jewelCost}</span>
+              </div>
+            `).join('') : ''}
+          </div>
+          <div class="p-4 bg-black/40 border-t border-[#3d3020] text-right">
+            <span class="font-heading text-xs text-[#6b6070] uppercase mr-2">Total Power:</span>
+            <span class="font-display text-[#c9a227] text-2xl">${calculate(p)} pts</span>
+          </div>
+        `;
+        overlay.classList.remove('hidden');
+      };
+
+      window.closeModal = () => overlay.classList.add('hidden');
+      overlay.onclick = (e) => { if(e.target === overlay) closeModal(); };
+    });
+  </script>
+</body>
+</html>

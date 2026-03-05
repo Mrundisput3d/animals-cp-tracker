@@ -1,241 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Animals CP</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['"Cinzel Decorative"', 'serif'],
-            heading: ['Cinzel', 'serif'],
-            body:    ['"IM Fell English"', 'serif'],
-          },
-          keyframes: {
-            float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-6px)' } },
-            'fade-up': { from: { opacity: '0', transform: 'translateY(16px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
-            'row-in': { from: { opacity: '0', transform: 'translateX(-8px)' }, to: { opacity: '1', transform: 'translateX(0)' } },
-            'modal-in': { from: { opacity: '0', transform: 'scale(0.95) translateY(8px)' }, to: { opacity: '1', transform: 'scale(1) translateY(0)' } },
-            'smoke-move': { 
-                '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-                '50%': { transform: 'translate(-2%, -2%) scale(1.1)' }
-            }
-          },
-          animation: {
-            float: 'float 6s ease-in-out infinite',
-            'fade-up': 'fade-up 0.8s ease both',
-            'row-in': 'row-in 0.35s ease both',
-            'modal-in': 'modal-in 0.2s ease both',
-            'smoke': 'smoke-move 30s ease-in-out infinite',
-          },
-        },
-      },
-    }
-  </script>
-  <style>
-    .rank-1 { color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-    .rank-2 { color: #e0e0e0; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
-    .rank-3 { color: #cd7f32; text-shadow: 0 0 12px rgba(205, 127, 50, 0.4); }
-    .gold-border { border: 1px solid rgba(201, 162, 39, 0.4); } /* Πιο έντονο border */
-    .item-hover:hover { background: rgba(201, 162, 39, 0.12); transition: all 0.3s ease; }
-    .rule-bullet { color: #c9a227; margin-right: 8px; font-weight: bold; }
-    
-    /* Smoke Background Effect */
-    .smoke-container {
-        position: fixed; inset: 0; z-index: -1; background: #08080a; overflow: hidden;
-    }
-    .smoke-layer {
-        position: absolute; inset: -50%; width: 200%; height: 200%;
-        background: radial-gradient(circle at center, rgba(40,40,55,0.2) 0%, transparent 60%);
-        filter: blur(40px);
-    }
-  </style>
-</head>
-<body class="text-[#d4c9b0] font-body min-h-screen overflow-x-hidden relative">
-
-  <div class="smoke-container">
-      <div class="smoke-layer animate-smoke"></div>
-      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.8)_100%)]"></div>
-  </div>
-
-  <header class="relative z-10 py-10 px-8 border-b border-[#3d3020] bg-black/40 backdrop-blur-sm">
-    <div class="flex flex-col items-center gap-4">
-      <img src="images/animals.png" alt="Logo" class="h-36 w-auto object-contain animate-float [filter:drop-shadow(0_0_15px_rgba(201,162,39,0.4))]">
-      <div class="text-center">
-        <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] [text-shadow:0_0_20px_rgba(201,162,39,0.3)]">Animals CP</h1>
-        <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070] mt-1.5 font-bold">Elite Activity Tracker</p>
-      </div>
-    </div>
-  </header>
-
-  <main class="relative z-10 max-w-6xl mx-auto px-4 py-12 animate-fade-up">
-    
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-      
-      <div class="lg:col-span-2">
-        <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase mb-4 ml-2">Elite Rankings</h2>
-        <div id="leaderboard" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl overflow-hidden backdrop-blur-md"></div>
-      </div>
-
-      <div class="lg:col-span-1">
-        <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase mb-4 ml-2 text-center lg:text-left">Last Acquisitions</h2>
-        <div id="last-purchased" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl p-4 space-y-4 backdrop-blur-md"></div>
-      </div>
-
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      
-      <div class="bg-[#12121a]/90 gold-border rounded-sm p-6 shadow-2xl backdrop-blur-md">
-        <h2 class="font-heading text-[#c9a227] text-sm tracking-widest uppercase mb-4 border-b border-[#3d3020] pb-2 text-center font-bold">System Rules</h2>
-        <ul class="space-y-4 font-body text-sm text-[#d4c9b0]/90">
-          <li class="flex items-start"><span class="rule-bullet">◆</span> Points earned through participation in Clan Activities.</li>
-          <li class="flex items-start"><span class="rule-bullet">◆</span> Epic Jewel purchases deduct the corresponding points.</li>
-          <li class="flex items-start"><span class="rule-bullet">◆</span> New Players: <b class="text-[#c9a227]">+50 PTS</b> Starter Bonus.</li>
-          <li class="flex items-start"><span class="rule-bullet">◆</span> Click on a player to view detailed point history.</li>
-        </ul>
-      </div>
-
-      <div id="jewels-section" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl overflow-hidden backdrop-blur-md"></div>
-
-    </div>
-  </main>
-
-  <div id="modal-overlay" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-lg flex items-center justify-center p-4">
-    <div id="modal-content" class="bg-[#12121a] border border-[#c9a227]/40 w-full max-w-md animate-modal-in shadow-[0_0_60px_rgba(0,0,0,1)]"></div>
-  </div>
-
-  <script>
-    const L2_DATA = {
-      config: {
-        activities: {
-          siege: { label: "Castle Siege", points: 9 },
-          valakas: { label: "Valakas", points: 9, jewelCost: 600, image: "images/necklace-valakas.png" },
-          antharas: { label: "Antharas", points: 9, jewelCost: 350, image: "images/earring-antharas.png" },
-          baium: { label: "Baium", points: 9, jewelCost: 300, image: "images/ring-of-baium.png" },
-          frintezza: { label: "Frintezza", points: 4.5, jewelCost: 120, image: "images/frintezza-necklace.png" },
-          zaken: { label: "Zaken", points: 2.25, jewelCost: 100, image: "images/zaken-earring.png" },
-          antQueen: { label: "Ant Queen", points: 2.25, jewelCost: 90, image: "images/ring-of-queen-ant.png" },
-          orfen: { label: "Orfen", points: 2.25, jewelCost: 40, image: "images/earring-orfen.png" },
-          core: { label: "Core", points: 2.25, jewelCost: 35, image: "images/ring-of-core.png" },
-          newPlayerBonus: { label: "New Player Bonus", points: 50, image: "images/bonus-icon.png" }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animals CP - Live Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English&display=swap" rel="stylesheet">
+    <style>
+        /* Smoke Background Effect */
+        .smoke-container { position: fixed; inset: 0; z-index: -1; background: #08080a; overflow: hidden; }
+        .smoke-layer { 
+            position: absolute; inset: -50%; width: 200%; height: 200%; 
+            background: radial-gradient(circle at center, rgba(40,40,55,0.2) 0%, transparent 60%); 
+            filter: blur(40px); animation: smoke-move 30s ease-in-out infinite; 
         }
-      },
-      players: {
-        "Mrundisput3d": { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 3, zaken: 6, antQueen: 9, orfen: 5, core: 4, baium: 3, newPlayerBonus: 0 }, bought: { zaken: 1 } },
-        "Dreamcatcher": { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 5, zaken: 4, antQueen: 7, orfen: 4, core: 2, baium: 3, newPlayerBonus: 0 }, bought: { } },
-        "MONARXIDOS":   { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 3, antQueen: 5, orfen: 4, core: 2, baium: 3, newPlayerBonus: 0 }, bought: { zaken: 1 } },
-        "AgainstALL":   { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 6, zaken: 3, antQueen: 5, orfen: 0, core: 1, baium: 2, newPlayerBonus: 0 }, bought: { } },
-        "HOLLISTER":    { activities: { siege: 1, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 4, orfen: 4, core: 2, baium: 3, newPlayerBonus: 0 }, bought: { } },
-        "Fidempor12":   { activities: { siege: 3, valakas: 2, antharas: 1, frintezza: 2, zaken: 5, antQueen: 2, orfen: 3, core: 1, baium: 3, newPlayerBonus: 0 }, bought: { } },
-        "IiSusHristos": { activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 2, zaken: 3, antQueen: 2, orfen: 3, core: 1, baium: 2, newPlayerBonus: 0 }, bought: { } },
-        "GRP":          { activities: { siege: 2, valakas: 2, antharas: 0, frintezza: 0, zaken: 2, antQueen: 2, orfen: 1, core: 0, baium: 2, newPlayerBonus: 0 }, bought: { } },
-        "joyboyTANK":   { activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 2, core: 0, baium: 0, newPlayerBonus: 1 }, bought: { } },
-        "Psolemporas":  { activities: { siege: 1, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, font: 0, orfen: 0, core: 1, baium: 1, newPlayerBonus: 1 }, bought: { } },
-        "Area51XxX":    { activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 3, antQueen: 2, orfen: 1, core: 0, baium: 1, newPlayerBonus: 0 }, bought: { } },
-        "Lpan":         { activities: { siege: 1, valakas: 1, antharas: 0, frintezza: 0, zaken: 1, antQueen: 0, orfen: 2, core: 1, baium: 1, newPlayerBonus: 0 }, bought: { } },
-        "SunnyLeone":   { activities: { siege: 0, valakas: 0, antharas: 0, frintezza: 0, zaken: 0, antQueen: 0, orfen: 0, core: 0, baium: 0, newPlayerBonus: 0 }, bought: { } }
-      }
-    };
+        @keyframes smoke-move { 
+            0%, 100% { transform: translate(0, 0) scale(1); } 
+            50% { transform: translate(-2%, -2%) scale(1.1); } 
+        }
+        
+        .gold-border { border: 1px solid rgba(201, 162, 39, 0.4); }
+        .rank-1 { color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); font-size: 1.2em; }
+        .rank-2 { color: #e0e0e0; text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+        .rank-3 { color: #cd7f32; text-shadow: 0 0 12px rgba(205, 127, 50, 0.4); }
+        
+        .item-hover:hover { background: rgba(201, 162, 39, 0.1); transition: 0.3s; }
+    </style>
+</head>
+<body class="text-[#d4c9b0] font-serif bg-[#08080a] min-h-screen">
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const lb = document.getElementById('leaderboard');
-      const js = document.getElementById('jewels-section');
-      const lp = document.getElementById('last-purchased');
-      const overlay = document.getElementById('modal-overlay');
-      const modal = document.getElementById('modal-content');
+    <div class="smoke-container"><div class="smoke-layer"></div></div>
 
-      const calc = (p) => {
-        let t = 0;
-        for (let a in p.activities) if (L2_DATA.config.activities[a]) t += p.activities[a] * L2_DATA.config.activities[a].points;
-        for (let b in p.bought) if (L2_DATA.config.activities[b]) t -= p.bought[b] * L2_DATA.config.activities[b].jewelCost;
-        return t.toFixed(1);
-      };
+    <header class="py-10 text-center border-b border-[#3d3020] bg-black/60 backdrop-blur-md">
+        <h1 class="text-4xl md:text-5xl font-bold text-[#c9a227] tracking-[0.2em] uppercase transition-all" style="font-family: 'Cinzel', serif;">Animals CP</h1>
+        <p class="text-xs tracking-[0.4em] text-[#6b6070] mt-3 font-bold uppercase">Elite Activity Tracker</p>
+    </header>
 
-      // LEADERBOARD RENDER
-      const sorted = Object.entries(L2_DATA.players)
-        .map(([name, info]) => ({ name, points: parseFloat(calc(info)), ...info }))
-        .sort((a, b) => b.points - a.points);
-
-      lb.innerHTML = sorted.map((p, i) => {
-        const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
-        const crown = i === 0 ? '<span class="text-3xl mr-2">👑</span>' : '';
-        return `
-        <div class="flex items-center justify-between p-6 border-b border-[#3d3020]/40 item-hover cursor-pointer animate-row-in" style="animation-delay: ${i * 0.05}s" onclick="openModal('${p.name}')">
-          <div class="flex items-center gap-4">
-            <span class="font-heading text-xl w-8 ${rankClass}">#${i + 1}</span>
-            <div class="flex items-center gap-2">
-              ${crown}
-              <span class="font-heading text-2xl tracking-wide font-bold ${rankClass}">${p.name}</span>
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <div id="loader" class="flex flex-col items-center justify-center py-20">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#c9a227] mb-4"></div>
+            <p class="text-[#c9a227] animate-pulse uppercase tracking-widest text-sm">Συγχρονισμός με Command Center...</p>
+        </div>
+        
+        <div id="content" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-4">
+                <h2 class="text-[#c9a227] text-xs tracking-widest uppercase font-bold ml-2">Elite Rankings</h2>
+                <div id="leaderboard" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl backdrop-blur-md overflow-hidden">
+                    </div>
             </div>
-          </div>
-          <div class="font-display text-[#f3eacb] text-3xl font-black drop-shadow-sm">${p.points} <span class="text-[12px] text-[#c9a227] ml-1 font-heading">PTS</span></div>
-        </div>`;
-      }).join('');
 
-      // LAST PURCHASED RENDER
-      const allPurchases = [];
-      Object.entries(L2_DATA.players).forEach(([name, info]) => {
-        Object.entries(info.bought).forEach(([jewelKey, count]) => {
-          if (count > 0) allPurchases.push({ name, jewel: L2_DATA.config.activities[jewelKey] });
-        });
-      });
-
-      lp.innerHTML = allPurchases.length > 0 ? allPurchases.slice(-5).reverse().map(p => `
-        <div class="flex items-center gap-4 p-3 border border-[#c9a227]/20 bg-black/50 rounded-sm">
-          <img src="${p.jewel.image}" class="h-10 w-10 object-contain drop-shadow-[0_0_5px_rgba(201,162,39,0.3)]">
-          <div class="flex flex-col">
-            <span class="font-heading text-sm text-[#c9a227] font-bold">${p.name}</span>
-            <span class="text-[10px] uppercase tracking-tighter text-[#6b6070] font-bold">Acquired ${p.jewel.label}</span>
-          </div>
-        </div>`).join('') : '<p class="text-center text-xs text-[#6b6070] py-4">No recent history</p>';
-
-      // ARMORY RENDER
-      js.innerHTML = `<div class="p-4 bg-[#c9a227]/10 border-b border-[#3d3020] text-center font-heading text-sm tracking-widest text-[#c9a227] uppercase font-bold">Epic Armory</div>` + 
-        Object.entries(L2_DATA.config.activities).filter(([k,v]) => v.jewelCost).map(([k,v]) => `
-          <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30 item-hover">
-            <div class="flex items-center gap-4">
-              <img src="${v.image}" class="h-10 w-10 object-contain">
-              <span class="font-heading text-xs tracking-widest uppercase text-[#6b6070] font-bold">${v.label}</span>
+            <div class="lg:col-span-1 space-y-8">
+                <div class="bg-[#12121a]/90 gold-border p-6 shadow-2xl backdrop-blur-md rounded-sm">
+                    <h2 class="text-[#c9a227] text-sm tracking-widest uppercase mb-6 border-b border-[#3d3020] pb-3 text-center font-bold" style="font-family: 'Cinzel', serif;">System Rules</h2>
+                    <ul class="space-y-5 text-sm leading-relaxed">
+                        <li class="flex items-start"><span class="text-[#c9a227] mr-3 font-bold">◆</span> Points earned through participation in Clan Activities.</li>
+                        <li class="flex items-start"><span class="text-[#c9a227] mr-3 font-bold">◆</span> Epic Jewel purchases deduct the corresponding points.</li>
+                        <li class="flex items-start"><span class="text-[#c9a227] mr-3 font-bold">◆</span> New Players: <span class="text-[#c9a227] font-bold">+50 PTS</span> Starter Bonus.</li>
+                    </ul>
+                </div>
+                
+                <div class="text-center opacity-40 text-[10px] uppercase tracking-[3px]">
+                    Last Refreshed: <span id="last-update">-</span>
+                </div>
             </div>
-            <div class="font-display text-[#c9a227] text-xl font-bold">${v.jewelCost}</div>
-          </div>`).join('');
+        </div>
+    </main>
 
-      // MODAL LOGIC
-      window.openModal = (name) => {
-        const p = L2_DATA.players[name];
-        modal.innerHTML = `
-          <div class="p-6 border-b border-[#3d3020] flex justify-between items-center bg-gradient-to-r from-[#c9a227]/20 to-transparent">
-            <h3 class="font-display text-2xl text-[#f3eacb] font-bold uppercase tracking-widest">${name}</h3>
-            <button onclick="closeModal()" class="text-[#c9a227] hover:text-white text-3xl">✕</button>
-          </div>
-          <div class="p-8 max-h-[60vh] overflow-y-auto space-y-5 bg-black/40">
-            ${Object.entries(p.activities).filter(([k,v]) => v > 0).map(([k,v]) => `
-              <div class="flex justify-between items-center border-b border-[#3d3020]/20 pb-3">
-                <span class="font-heading text-sm text-[#6b6070] uppercase font-bold">${L2_DATA.config.activities[k].label} (x${v})</span>
-                <span class="text-[#f3eacb] font-bold font-display text-lg">+${(v * L2_DATA.config.activities[k].points).toFixed(1)}</span>
-              </div>`).join('')}
-            ${Object.entries(p.bought).map(([k,v]) => `
-              <div class="flex justify-between items-center text-red-500/80 italic border-b border-[#3d3020]/20 pb-3">
-                <span class="font-bold">Bought ${L2_DATA.config.activities[k].label}</span>
-                <span class="font-display text-lg">-${v * L2_DATA.config.activities[k].jewelCost}</span>
-              </div>`).join('')}
-          </div>
-          <div class="p-8 bg-black/80 border-t border-[#c9a227]/30 text-right">
-            <span class="font-display text-[#c9a227] text-5xl font-black">${calc(p)} <span class="text-xs">PTS</span></span>
-          </div>`;
-        overlay.classList.remove('hidden');
-      };
-      window.closeModal = () => overlay.classList.add('hidden');
-      overlay.onclick = (e) => { if(e.target === overlay) closeModal(); };
-    });
-  </script>
+    <script>
+        // Ο ΣΥΝΔΕΣΜΟΣ ΣΟΥ
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR6YT5pXR24ENKCgDZvYrbIUb54zmm9s5SHzeUQTVzxDty7c4mYAxXPbtJfSk-VaUWtaJQilFUR5W-t/pub?output=csv';
+
+        // ΡΥΘΜΙΣΕΙΣ ΠΟΝΤΩΝ
+        const CONFIG = {
+            activities: {
+                siege: 9, valakas: 9, antharas: 9, baium: 9, frintezza: 4.5, zaken: 2.25, antQueen: 2.25, orfen: 2.25, core: 2.25, newPlayerBonus: 50
+            },
+            costs: {
+                valakas: 600, antharas: 350, baium: 300, frintezza: 120, zaken: 100, antQueen: 90, orfen: 40, core: 35
+            }
+        };
+
+        async function fetchData() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                if (!response.ok) throw new Error('Network error');
+                const csvText = await response.text();
+                processData(csvText);
+                document.getElementById('last-update').innerText = new Date().toLocaleTimeString();
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loader').innerHTML = `<p class="text-red-500">Σφάλμα σύνδεσης. Βεβαιωθείτε ότι το Sheet είναι "Published to Web" ως CSV.</p>`;
+            }
+        }
+
+        function processData(csv) {
+            // Χωρισμός γραμμών και αφαίρεση κεφαλίδας
+            const rows = csv.split('\n').map(row => row.split(',')).slice(1);
+            let players = [];
+
+            rows.forEach(col => {
+                if (col.length < 11 || !col[0]) return;
+
+                const name = col[0].trim();
+                
+                // Υπολογισμός Θετικών Πόντων
+                let points = 
+                    (parseFloat(col[1]) || 0) * CONFIG.activities.siege +
+                    (parseFloat(col[2]) || 0) * CONFIG.activities.valakas +
+                    (parseFloat(col[3]) || 0) * CONFIG.activities.antharas +
+                    (parseFloat(col[4]) || 0) * CONFIG.activities.baium +
+                    (parseFloat(col[5]) || 0) * CONFIG.activities.frintezza +
+                    (parseFloat(col[6]) || 0) * CONFIG.activities.zaken +
+                    (parseFloat(col[7]) || 0) * CONFIG.activities.antQueen +
+                    (parseFloat(col[8]) || 0) * CONFIG.activities.orfen +
+                    (parseFloat(col[9]) || 0) * CONFIG.activities.core +
+                    (parseFloat(col[10]) || 0) * CONFIG.activities.newPlayerBonus;
+
+                // Αφαίρεση Αγορών (Στήλη L / 11)
+                const boughtRaw = col[11] ? col[11].trim() : "";
+                if (boughtRaw) {
+                    const purchases = boughtRaw.split('|');
+                    purchases.forEach(p => {
+                        const [item, qty] = p.trim().split(':');
+                        const key = item ? item.toLowerCase().trim() : '';
+                        if (CONFIG.costs[key]) {
+                            points -= (parseInt(qty) || 0) * CONFIG.costs[key];
+                        }
+                    });
+                }
+
+                players.push({ name, total: parseFloat(points.toFixed(1)) });
+            });
+
+            // Ταξινόμηση και Εμφάνιση
+            renderLeaderboard(players.sort((a, b) => b.total - a.total));
+        }
+
+        function renderLeaderboard(data) {
+            document.getElementById('loader').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+            
+            const lb = document.getElementById('leaderboard');
+            lb.innerHTML = data.map((p, i) => {
+                const rankStyle = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+                const crown = i === 0 ? '👑' : '';
+                
+                return `
+                <div class="flex items-center justify-between p-6 border-b border-[#3d3020]/30 item-hover">
+                    <div class="flex items-center gap-5">
+                        <span class="font-bold text-lg w-8 ${rankStyle}">#${i + 1}</span>
+                        <div>
+                            <span class="text-2xl font-bold uppercase tracking-widest ${rankStyle}">${crown} ${p.name}</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-4xl font-black text-[#f3eacb] drop-shadow-md">${p.total}</span>
+                        <span class="text-[10px] text-[#c9a227] font-bold block tracking-tighter uppercase">Points</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // Αυτόματη ανανέωση κάθε 5 λεπτά
+        document.addEventListener('DOMContentLoaded', fetchData);
+        setInterval(fetchData, 300000);
+    </script>
 </body>
 </html>

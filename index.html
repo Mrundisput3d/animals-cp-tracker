@@ -21,10 +21,12 @@
           keyframes: {
             float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-6px)' } },
             'fade-up': { from: { opacity: '0', transform: 'translateY(16px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+            'modal-in': { from: { opacity: '0', transform: 'scale(0.95) translateY(8px)' }, to: { opacity: '1', transform: 'scale(1) translateY(0)' } },
           },
           animation: {
             float: 'float 6s ease-in-out infinite',
             'fade-up': 'fade-up 0.8s ease both',
+            'modal-in': 'modal-in 0.2s ease both',
           },
         },
       },
@@ -36,27 +38,28 @@
   <div class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.75)_100%)]"></div>
 
   <header class="relative z-10 py-10 px-8 border-b border-[#3d3020] bg-gradient-to-b from-[#c9a227]/[0.04] to-transparent">
-    <div class="flex flex-col items-center gap-4">
-      <img src="images/animals.png" alt="Animals CP logo" class="h-36 w-auto object-contain animate-float">
-      <div class="text-center">
-        <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] [text-shadow:0_0_30px_rgba(201,162,39,0.5)]">Animals CP</h1>
-        <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070] mt-1.5">Activity Tracker &mdash; Rankings</p>
-      </div>
+    <div class="flex flex-col items-center gap-4 text-center">
+      <img src="images/animals.png" alt="Logo" class="h-36 w-auto object-contain animate-float">
+      <h1 class="font-display text-4xl md:text-5xl font-bold tracking-[0.1em] text-[#c9a227] [text-shadow:0_0_30px_rgba(201,162,39,0.5)]">Animals CP</h1>
+      <p class="font-heading text-xs tracking-[0.3em] uppercase text-[#6b6070]">Activity Tracker &mdash; Season Rankings</p>
     </div>
   </header>
 
   <main class="relative z-10 max-w-2xl mx-auto px-4 py-12 animate-fade-up">
-    <div id="leaderboard" class="bg-[#12121a] border border-[#3d3020] rounded-sm overflow-hidden shadow-2xl">
-      </div>
+    <div id="leaderboard" class="bg-[#12121a] border border-[#3d3020] rounded-sm shadow-2xl overflow-hidden"></div>
   </main>
 
   <section class="relative z-10 max-w-2xl mx-auto px-4 pb-12">
-    <div id="jewels-section" class="bg-[#12121a] border border-[#3d3020] rounded-sm overflow-hidden shadow-2xl">
-      </div>
+    <div id="jewels-section" class="bg-[#12121a] border border-[#3d3020] rounded-sm shadow-2xl overflow-hidden"></div>
   </section>
 
+  <div id="modal-overlay" class="fixed inset-0 z-[100] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-content" class="bg-[#12121a] border border-[#3d3020] w-full max-w-md animate-modal-in shadow-2xl">
+      </div>
+  </div>
+
   <script>
-    // ΟΛΑ ΤΑ DATA ΕΔΩ ΜΕΣΑ
+    // --- DATA ---
     const L2_DATA = {
       config: {
         activities: {
@@ -89,11 +92,14 @@
       }
     };
 
-    function render() {
+    // --- SCRIPT ---
+    document.addEventListener('DOMContentLoaded', () => {
       const lb = document.getElementById('leaderboard');
       const js = document.getElementById('jewels-section');
-      
-      const calculate = (p) => {
+      const overlay = document.getElementById('modal-overlay');
+      const modal = document.getElementById('modal-content');
+
+      const calc = (p) => {
         let t = 0;
         for (let a in p.activities) if (L2_DATA.config.activities[a]) t += p.activities[a] * L2_DATA.config.activities[a].points;
         for (let b in p.bought) if (L2_DATA.config.activities[b]) t -= p.bought[b] * L2_DATA.config.activities[b].jewelCost;
@@ -101,36 +107,35 @@
       };
 
       const sorted = Object.entries(L2_DATA.players)
-        .map(([name, info]) => ({ name, points: parseFloat(calculate(info)), ...info }))
+        .map(([name, info]) => ({ name, points: parseFloat(calc(info)), ...info }))
         .sort((a, b) => b.points - a.points);
 
+      // Render Leaderboard
       lb.innerHTML = sorted.map((p, i) => `
-        <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30 hover:bg-[#c9a227]/5">
+        <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30 hover:bg-[#c9a227]/5 cursor-pointer" onclick="openModal('${p.name}')">
           <div class="flex items-center gap-4">
             <span class="font-heading text-[#6b6070] w-6 text-sm">#${i + 1}</span>
             <div class="flex items-center gap-2">
               <span class="font-heading text-lg">${p.name}</span>
-              ${p.activities.newPlayerBonus > 0 ? `<img src="images/bonus-icon.png" class="h-5 w-5" title="New Player Bonus">` : ''}
+              ${p.activities.newPlayerBonus > 0 ? `<img src="images/bonus-icon.png" class="h-5 w-5">` : ''}
             </div>
           </div>
           <div class="font-display text-[#c9a227] text-xl">${p.points} pts</div>
         </div>
       `).join('');
 
-      js.innerHTML = Object.entries(L2_DATA.config.activities)
-        .filter(([k, v]) => v.jewelCost)
-        .map(([k, v]) => `
+      // Render Jewels
+      js.innerHTML = Object.entries(L2_DATA.config.activities).filter(([k,v]) => v.jewelCost).map(([k, v]) => `
           <div class="flex items-center justify-between p-4 border-b border-[#3d3020]/30">
             <div class="flex items-center gap-4">
               <img src="${v.image}" class="h-10 w-10 object-contain">
               <span class="font-heading text-xs tracking-widest uppercase">${v.label}</span>
             </div>
             <div class="font-body text-[#c9a227]">${v.jewelCost} pts</div>
-          </div>
-        `).join('');
-    }
-    
-    document.addEventListener('DOMContentLoaded', render);
-  </script>
-</body>
-</html>
+          </div>`).join('');
+
+      // Modal Logic
+      window.openModal = (name) => {
+        const p = L2_DATA.players[name];
+        modal.innerHTML = `
+          <div class="p-6 border-b border-[#3d3020] flex justify-between items-center bg-gradient-to-

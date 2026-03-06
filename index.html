@@ -1,151 +1,126 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Animals CP - Clan Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English&display=swap" rel="stylesheet" />
-  <style>
-    body { background-color: #0d0d0f; color: #d4c9b0; font-family: 'IM Fell English', serif; }
-    .gold-text { color: #c9a227; font-family: 'Cinzel', serif; }
-    .gold-border { border: 1px solid rgba(201, 162, 39, 0.3); }
-    .panel-bg { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
-    .rank-1 { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-  </style>
+    <meta charset="UTF-8">
+    <title>ANIMALS CP - ELITE TRACKER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: #d4c9b0; font-family: 'Cinzel', serif; }
+        .gold-border { border: 1px solid #c9a227; }
+        .gold-text { color: #c9a227; }
+        .panel { background: rgba(20, 20, 20, 0.9); border: 1px solid rgba(201, 162, 39, 0.2); }
+    </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-10">
 
-  <header class="text-center mb-10">
-    <img src="images/animals.png" alt="Animals Logo" class="h-32 mx-auto mb-4 object-contain" onerror="this.src='https://img.icons8.com/ios-filled/100/c9a227/shield.png'">
-    <h1 class="text-4xl font-bold gold-text tracking-tighter uppercase">Animals CP</h1>
-    <div class="mt-4 inline-block px-6 py-2 border gold-border panel-bg">
-        <p class="text-[10px] uppercase tracking-widest text-gray-500">Next Objective</p>
-        <div id="countdown" class="text-2xl gold-text font-bold uppercase tracking-widest">Loading...</div>
-    </div>
-  </header>
-
-  <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
-    
-    <div class="lg:col-span-2">
-      <h2 class="gold-text text-sm mb-4 uppercase tracking-widest">Elite Rankings</h2>
-      <div class="panel-bg gold-border rounded overflow-hidden shadow-2xl">
-        <div id="leaderboard" class="divide-y divide-white/5"></div>
-      </div>
-    </div>
-
-    <div class="lg:col-span-2 space-y-6">
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <h2 class="gold-text text-sm mb-4 uppercase tracking-widest">Respawn Times</h2>
-          <div id="timers" class="panel-bg gold-border p-3 text-xs space-y-2"></div>
+    <div class="text-center mb-12">
+        <img src="https://i.ibb.co/m5Yh4Zq/animals-logo.png" alt="ANIMALS LOGO" class="h-32 mx-auto mb-4 drop-shadow-2xl">
+        <h1 class="text-5xl font-bold tracking-widest gold-text">ANIMALS CP</h1>
+        <div class="mt-6 inline-block px-10 py-4 panel gold-border">
+            <p class="text-xs uppercase tracking-tighter opacity-50">Next Objective In:</p>
+            <div id="next-boss" class="text-3xl font-bold uppercase tracking-widest mt-1">LOADING DATA...</div>
         </div>
-        <div>
-          <h2 class="gold-text text-sm mb-4 uppercase tracking-widest">Acquisition Feed</h2>
-          <div id="feed" class="panel-bg gold-border p-3 text-[10px] space-y-2 min-h-[100px]"></div>
-        </div>
-      </div>
-
-      <div>
-        <h2 class="gold-text text-sm mb-4 uppercase tracking-widest text-center">Epic Armory</h2>
-        <div id="armory" class="grid grid-cols-2 gap-2"></div>
-      </div>
     </div>
-  </main>
 
-  <script>
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6YT5pXR24ENKCgDZvYrbIUb54zmm9s5SHzeUQTVzxDty7c4mYAxXPbtJfSk-VaUWtaJQilFUR5W-t/pub?output=csv";
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-1">
+            <h2 class="gold-text mb-4 text-center tracking-widest uppercase">Elite Rankings</h2>
+            <div id="rankings" class="panel p-2 divide-y divide-white/5 max-h-[600px] overflow-y-auto"></div>
+        </div>
 
-    const ITEMS = [
-        { name: "Valakas", cost: 600, img: "images/necklace-valakas.png", col: 11 },
-        { name: "Antharas", cost: 350, img: "images/earring-antharas.png", col: 12 },
-        { name: "Baium", cost: 300, img: "images/ring-of-baium.png", col: 13 },
-        { name: "Zaken", cost: 100, img: "images/zaken-earring.png", col: 14 }
-    ];
+        <div class="lg:col-span-1">
+            <h2 class="gold-text mb-4 text-center tracking-widest uppercase">Respawn Times</h2>
+            <div id="timers" class="panel p-4 space-y-3"></div>
+        </div>
 
-    let bossData = [];
+        <div class="lg:col-span-1 space-y-8">
+            <div>
+                <h2 class="gold-text mb-4 text-center tracking-widest uppercase">Epic Armory</h2>
+                <div id="armory" class="grid grid-cols-1 gap-2"></div>
+            </div>
+            <div>
+                <h2 class="gold-text mb-4 text-center tracking-widest uppercase">Acquisition Feed</h2>
+                <div id="feed" class="panel p-4 text-[10px] min-h-[100px] uppercase"></div>
+            </div>
+        </div>
+    </div>
 
-    async function fetchData() {
-        try {
-            const r = await fetch(SHEET_URL);
-            const data = await r.text();
-            const rows = data.split('\n').map(row => row.split(','));
+    <script>
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6YT5pXR24ENKCgDZvYrbIUb54zmm9s5SHzeUQTVzxDty7c4mYAxXPbtJfSk-VaUWtaJQilFUR5W-t/pub?output=csv";
 
-            // 1. LEADERBOARD
-            const lb = document.getElementById('leaderboard');
-            lb.innerHTML = rows.slice(1, 40).filter(r => r[0]).map((r, i) => `
-                <div class="flex justify-between p-4 items-center hover:bg-white/5">
-                    <span class="gold-text ${i<3?'rank-1':''}">#${i+1} ${r[0]}</span>
-                    <span class="text-xl font-bold">${r[1] || 0}</span>
-                </div>
-            `).join('');
-
-            // 2. BOSS TIMERS (Col T, U)
-            bossData = [];
-            let timersHTML = "";
-            for(let i=2; i<=11; i++) {
-                if(rows[i] && rows[i][19]) {
-                    const name = rows[i][19].trim();
-                    const time = rows[i][20] ? rows[i][20].trim() : "TBD";
-                    bossData.push({ name, time });
-                    timersHTML += `<div class="flex justify-between border-b border-white/5 pb-1">
-                        <span class="text-gray-500 uppercase">${name}</span>
-                        <span class="gold-text">${time}</span>
-                    </div>`;
-                }
-            }
-            document.getElementById('timers').innerHTML = timersHTML;
-
-            // 3. FEED (Check columns L, M, N)
-            let feedHTML = "";
-            rows.slice(1, 30).forEach(r => {
-                if(r[11] > 0) feedHTML += `<div class="border-l-2 border-yellow-600 pl-2 bg-white/5 p-1">${r[0]} acquired Valakas</div>`;
-                if(r[12] > 0) feedHTML += `<div class="border-l-2 border-yellow-600 pl-2 bg-white/5 p-1">${r[0]} acquired Antharas</div>`;
-            });
-            document.getElementById('feed').innerHTML = feedHTML || "No recent activity";
-
-            // 4. ARMORY
-            document.getElementById('armory').innerHTML = ITEMS.map(item => `
-                <div class="panel-bg gold-border p-2 flex items-center justify-between">
-                    <img src="${item.img}" class="w-6 h-6 object-contain" onerror="this.style.display='none'">
-                    <span class="text-[10px] uppercase">${item.name}</span>
-                    <span class="gold-text text-[10px]">${item.cost}</span>
-                </div>
-            `).join('');
-
-        } catch (e) { console.error("Sheet Error:", e); }
-    }
-
-    function updateCountdown() {
-        const now = new Date();
-        let next = null;
-        let min = Infinity;
-
-        bossData.forEach(b => {
+        async function update() {
             try {
-                const parts = b.time.split(' ');
-                if(parts.length < 2) return;
-                const [d, m] = parts[0].split('/');
-                const [hh, mm] = parts[1].split(':');
-                const target = new Date(now.getFullYear(), m-1, d, hh, mm);
-                const diff = target - now;
-                if(diff > 0 && diff < min) { min = diff; next = { name: b.name, diff }; }
-            } catch(e) {}
-        });
+                const response = await fetch(SHEET_URL);
+                const csv = await response.text();
+                const rows = csv.split('\n').map(r => r.split(','));
 
-        const el = document.getElementById('countdown');
-        if(next) {
-            const h = Math.floor(next.diff / 3600000);
-            const m = Math.floor((next.diff % 3600000) / 60000);
-            const s = Math.floor((next.diff % 60000) / 1000);
-            el.innerText = `${next.name}: ${h}h ${m}m ${s}s`;
-        } else { el.innerText = "Check Excel Times"; }
-    }
+                // 1. RANKINGS
+                document.getElementById('rankings').innerHTML = rows.slice(1, 41).filter(r => r[0]).map((r, i) => `
+                    <div class="flex justify-between p-3 items-center">
+                        <span class="text-sm">#${i+1} ${r[0]}</span>
+                        <span class="gold-text font-bold text-lg">${r[1] || 0}</span>
+                    </div>
+                `).join('');
 
-    fetchData();
-    setInterval(fetchData, 60000);
-    setInterval(updateCountdown, 1000);
-  </script>
+                // 2. BOSSES & NEXT OBJECTIVE
+                let bosses = [];
+                let timersHTML = "";
+                const now = new Date();
+                let nextBoss = null;
+                let minDiff = Infinity;
+
+                for(let i=2; i<=11; i++) {
+                    if(rows[i] && rows[i][19]) {
+                        const name = rows[i][19].trim();
+                        const timeStr = rows[i][20] ? rows[i][20].trim() : "TBD";
+                        timersHTML += `<div class="flex justify-between border-b border-white/5 pb-2">
+                            <span class="opacity-70 uppercase text-xs">${name}</span>
+                            <span class="gold-text text-xs">${timeStr}</span>
+                        </div>`;
+
+                        // Countdown Logic
+                        const parts = timeStr.split(' ');
+                        if(parts.length === 2) {
+                            const [d, m] = parts[0].split('/');
+                            const [hh, mm] = parts[1].split(':');
+                            const target = new Date(now.getFullYear(), m-1, d, hh, mm);
+                            const diff = target - now;
+                            if(diff > 0 && diff < minDiff) { minDiff = diff; nextBoss = { name, diff }; }
+                        }
+                    }
+                }
+                document.getElementById('timers').innerHTML = timersHTML;
+                
+                // Update Countdown Display
+                if(nextBoss) {
+                    const h = Math.floor(nextBoss.diff / 3600000);
+                    const m = Math.floor((nextBoss.diff % 3600000) / 60000);
+                    const s = Math.floor((nextBoss.diff % 60000) / 1000);
+                    document.getElementById('next-boss').innerText = `${nextBoss.name}: ${h}H ${m}M ${s}S`;
+                }
+
+                // 3. ARMORY & FEED (Hardcoded icons for stability)
+                const items = [
+                    {n: "VALAKAS", c: 600, img: "https://l2wiki.com/images/8/8e/Item_6657.png"},
+                    {n: "ANTHARAS", c: 350, img: "https://l2wiki.com/images/3/36/Item_6658.png"},
+                    {n: "BAIUM", c: 300, img: "https://l2wiki.com/images/a/a3/Item_6659.png"},
+                    {n: "ZAKEN", c: 100, img: "https://l2wiki.com/images/1/12/Item_6662.png"}
+                ];
+                document.getElementById('armory').innerHTML = items.map(it => `
+                    <div class="panel p-2 flex items-center justify-between">
+                        <img src="${it.img}" class="w-6 h-6">
+                        <span class="text-[10px]">${it.n}</span>
+                        <span class="gold-text font-bold">${it.c} PTS</span>
+                    </div>
+                `).join('');
+
+            } catch (e) { console.error("Update failed"); }
+        }
+
+        setInterval(update, 1000);
+        update();
+    </script>
 </body>
 </html>

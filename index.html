@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Animals CP - Clan Dashboard</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
@@ -23,102 +22,85 @@
     }
   </script>
   <style>
-    /* Smoke Effects (Τοποθέτηση πίσω από τα πάντα για να μην εμποδίζουν) */
-    .smoke-container {
+    /* Smoke Effect - Background Only */
+    .smoke-bg {
         position: fixed; inset: 0; width: 100%; height: 100%;
-        pointer-events: none; /* ΠΟΛΥ ΣΗΜΑΝΤΙΚΟ: Επιτρέπει τα κλικ από πάνω */
-        z-index: 0; /* Πίσω από το main content */
-        overflow: hidden;
-        opacity: 0.3; /* Διακριτικό */
+        pointer-events: none; z-index: 0; opacity: 0.2; overflow: hidden;
     }
     .smoke-layer {
-        position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-        background-repeat: repeat-x; background-size: contain;
+        position: absolute; bottom: 0; left: 0; width: 200%; height: 100%;
+        background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+        animation: smokeMove 60s linear infinite;
     }
-    .smoke-1 { background-image: url('images/smoke1.webp'); animation: smokeMove 30s linear infinite; }
-    .smoke-2 { background-image: url('images/smoke2.webp'); animation: smokeMove 45s linear infinite reverse; opacity: 0.6; }
-    @keyframes smokeMove { 0% { background-position-x: 0px; } 100% { background-position-x: 1000px; } }
+    @keyframes smokeMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-    /* Styling */
     .gold-border { border: 1px solid rgba(201, 162, 39, 0.3); }
-    .item-hover:hover { background: rgba(201, 162, 39, 0.08); transition: all 0.2s ease; }
-    .rank-1 { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
-    .rank-2 { color: #e0e0e0; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
-    .rank-3 { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.3); }
+    .item-hover:hover { background: rgba(201, 162, 39, 0.1); transition: 0.3s; }
+    .rank-1 { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
     #lb-wrapper::-webkit-scrollbar { width: 4px; }
-    #lb-wrapper::-webkit-scrollbar-thumb { background: #c9a227; border-radius: 10px; }
+    #lb-wrapper::-webkit-scrollbar-thumb { background: #c9a227; }
   </style>
 </head>
-<body class="bg-[#0d0d0f] text-[#d4c9b0] font-body min-h-screen">
+<body class="bg-[#0d0d0f] text-[#d4c9b0] font-body min-h-screen selection:bg-[#c9a227] selection:text-black">
 
-  <div class="smoke-container">
-    <div class="smoke-layer smoke-1"></div>
-    <div class="smoke-layer smoke-2"></div>
-  </div>
+  <div class="smoke-bg"><div class="smoke-layer"></div></div>
 
-  <header class="relative z-10 py-8 border-b border-[#3d3020] bg-black/40 text-center">
-    <img src="images/animals.png" alt="Logo" class="h-24 w-auto mx-auto mb-3 object-contain drop-shadow-[0_0_10px_rgba(201,162,39,0.3)]">
-    <h1 class="font-display text-3xl font-bold tracking-[0.1em] text-[#c9a227]">Animals CP</h1>
-    <p class="font-heading text-[9px] tracking-[0.4em] uppercase text-[#6b6070] mt-1 mb-5">Elite Activity Tracker</p>
+  <header class="relative z-10 py-8 border-b border-[#3d3020] bg-black/60 text-center">
+    <h1 class="font-display text-4xl font-bold tracking-[0.1em] text-[#c9a227]">Animals CP</h1>
+    <p class="font-heading text-[10px] tracking-[0.4em] uppercase text-[#6b6070] mt-1 mb-4">Elite Activity Tracker</p>
     
-    <div id="next-event-banner" class="inline-block px-5 py-2 bg-[#c9a227]/10 border border-[#c9a227]/40 rounded-sm">
-        <p class="font-heading text-[9px] tracking-[0.2em] uppercase text-[#6b6070]">Next Objective In:</p>
-        <div id="countdown-timer" class="font-display text-lg text-white">Loading...</div>
+    <div id="next-event-banner" class="inline-block px-8 py-3 bg-black/80 border border-[#c9a227]/50 rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+        <p class="font-heading text-[10px] tracking-[0.2em] uppercase text-[#c9a227]/70 mb-1">Next Objective In:</p>
+        <div id="countdown-timer" class="font-display text-2xl text-white tracking-widest uppercase">Loading...</div>
     </div>
-    <div class="mt-4">
-        <a href="https://discord.gg/uj5DgeCeJS" target="_blank" class="inline-flex items-center gap-2 px-5 py-1.5 border border-[#5865F2]/50 text-[#5865F2] font-heading text-[10px] tracking-widest uppercase hover:bg-[#5865F2] hover:text-white transition-all duration-300 rounded-sm">Join Discord</a>
+
+    <div class="mt-6">
+        <a href="https://discord.gg/uj5DgeCeJS" target="_blank" class="px-6 py-2 border border-[#5865F2] text-[#5865F2] font-heading text-[11px] tracking-widest uppercase hover:bg-[#5865F2] hover:text-white transition-all">Join Discord</a>
     </div>
   </header>
 
-  <main class="relative z-10 max-w-7xl mx-auto px-4 py-8 animate-fade-up grid grid-cols-1 lg:grid-cols-4 gap-8">
+  <main class="relative z-10 max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
     
     <div class="lg:col-span-2 space-y-4">
-      <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-1">Elite Rankings</h2>
-      <div id="lb-wrapper" class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl overflow-y-auto max-h-[580px]">
-        <div id="leaderboard" class="divide-y divide-[#3d3020]/20"></div>
+      <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase">Elite Rankings</h2>
+      <div id="lb-wrapper" class="bg-black/60 gold-border rounded-sm overflow-y-auto max-h-[600px] shadow-2xl">
+        <div id="leaderboard" class="divide-y divide-white/5"></div>
       </div>
     </div>
 
-    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="lg:col-span-2 space-y-8">
       
       <div class="space-y-4">
-        <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-1">Epic Respawn Times</h2>
-        <div class="bg-[#12121a]/90 gold-border rounded-sm overflow-hidden shadow-xl">
-            <div id="boss-timers" class="p-3 space-y-1.5"></div>
+        <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase">Epic Respawn Times (GMT+2)</h2>
+        <div class="bg-black/60 gold-border rounded-sm p-2 shadow-xl">
+            <div id="boss-timers" class="space-y-1"></div>
         </div>
       </div>
 
-      <div class="space-y-4">
-        <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-1">Acquisition Feed</h2>
-        <div id="last-purchased" class="bg-[#12121a]/90 gold-border rounded-sm p-4 space-y-4 min-h-[250px] shadow-xl"></div>
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="space-y-4">
+            <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase text-center">Epic Armory</h2>
+            <div id="jewels-section" class="bg-black/60 gold-border rounded-sm divide-y divide-white/5 shadow-xl"></div>
+          </div>
 
-      <div class="bg-[#12121a]/90 gold-border rounded-sm shadow-2xl overflow-hidden md:col-span-1">
-        <div class="p-2.5 bg-[#c9a227]/10 text-center font-heading text-[10px] text-[#c9a227] uppercase font-bold">Epic Armory</div>
-        <div id="jewels-section" class="divide-y divide-[#3d3020]/15"></div>
+          <div class="bg-black/60 gold-border p-5 rounded-sm shadow-xl">
+            <h3 class="font-heading text-[#c9a227] text-[11px] border-b border-white/10 mb-3 pb-1 uppercase">Rules of Honor</h3>
+            <ul class="text-[11px] text-[#6b6070] space-y-2 uppercase italic">
+                <li>✦ Baium: Saturday 22:00</li>
+                <li>✦ Siege: Sunday 20:00</li>
+                <li>✦ New Players: <span class="text-[#c9a227] not-italic font-bold">+50 PTS</span></li>
+            </ul>
+          </div>
       </div>
-
-      <div class="bg-[#12121a]/90 gold-border rounded-sm p-5 shadow-2xl md:col-span-1 text-[11px] font-heading uppercase text-[#6b6070] italic">
-        <h3 class="text-[#c9a227] border-b border-[#3d3020] mb-3 pb-1.5 not-italic">Rules of Honor</h3>
-        <p>✦ Points via participation.</p>
-        <p>✦ Epic costs auto-deducted.</p>
-        <p>✦ New Players: <b class="text-[#c9a227] not-italic">+50 PTS</b>.</p>
-        <p class="mt-2 text-[9px] text-[#3d3020]">* Times automatically adjust.</p>
-      </div>
-
     </div>
   </main>
-
-  <div id="modal-overlay" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm flex items-center justify-center p-4">
-    <div id="modal-content" class="bg-[#12121a] border border-[#c9a227]/40 w-full max-w-md animate-modal-in shadow-2xl rounded-sm"></div>
-  </div>
 
   <script>
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6YT5pXR24ENKCgDZvYrbIUb54zmm9s5SHzeUQTVzxDty7c4mYAxXPbtJfSk-VaUWtaJQilFUR5W-t/pub?output=csv";
 
     const CONFIG = {
       activities: {
-        siege: { label: "Siege", points: 9 },
+        siege: { label: "Siege", points: 9, img: "images/siege-icon.png" },
         valakas: { label: "Valakas", points: 9, jewelCost: 600, img: "images/necklace-valakas.png" },
         antharas: { label: "Antharas", points: 9, jewelCost: 350, img: "images/earring-antharas.png" },
         baium: { label: "Baium", points: 9, jewelCost: 300, img: "images/ring-of-baium.png" },
@@ -126,8 +108,7 @@
         zaken: { label: "Zaken", points: 2.25, jewelCost: 100, img: "images/zaken-earring.png" },
         antQueen: { label: "Ant Queen", points: 2.25, jewelCost: 90, img: "images/ring-of-queen-ant.png" },
         orfen: { label: "Orfen", points: 2.25, jewelCost: 40, img: "images/earring-orfen.png" },
-        core: { label: "Core", points: 2.25, jewelCost: 35, img: "images/ring-of-core.png" },
-        bonus: { label: "Starter Bonus", points: 50, img: "images/bonus-icon.png" }
+        core: { label: "Core", points: 2.25, jewelCost: 35, img: "images/ring-of-core.png" }
       }
     };
 
@@ -135,74 +116,100 @@
     let BOSS_DATA = [];
 
     async function init() {
-      const response = await fetch(SHEET_URL);
-      const csv = await response.text();
-      const rows = csv.split('\n').map(r => r.split(','));
+      try {
+        const response = await fetch(SHEET_URL);
+        const csv = await response.text();
+        const rows = csv.split('\n').map(r => r.split(','));
 
-      // 1. Players
-      for (let i = 1; i < rows.length; i++) {
-        if(!rows[i][0] || i > 60) break;
-        const name = rows[i][0].trim();
-        PLAYER_DATA[name] = {
-          activities: {
-            siege: parseInt(rows[i][1])||0, valakas: parseInt(rows[i][2])||0, antharas: parseInt(rows[i][3])||0,
-            baium: parseInt(rows[i][4])||0, frintezza: parseInt(rows[i][5])||0, zaken: parseInt(rows[i][6])||0,
-            antQueen: parseInt(rows[i][7])||0, orfen: parseInt(rows[i][8])||0, core: parseInt(rows[i][9])||0,
-            bonus: parseInt(rows[i][10])||0
-          },
-          bought: {
-            valakas: parseInt(rows[i][11])||0, antharas: parseInt(rows[i][12])||0, zaken: parseInt(rows[i][15])||0
-          }
-        };
-      }
+        // Parse Leaderboard
+        PLAYER_DATA = {};
+        rows.slice(1, 50).forEach(row => {
+          if(!row[0]) return;
+          PLAYER_DATA[row[0]] = { points: row[1] || 0 };
+        });
 
-      // 2. Bosses
-      BOSS_DATA = [];
-      for(let i=2; i<=10; i++) {
+        // Parse Bosses (T3-T11)
+        BOSS_DATA = [];
+        for(let i=2; i<=10; i++) {
           if(rows[i] && rows[i][19]) {
-              BOSS_DATA.push({ name: rows[i][19].trim(), timeStr: rows[i][20].trim() });
+            BOSS_DATA.push({ name: rows[i][19].trim(), timeStr: rows[i][20].trim() });
           }
-      }
-      BOSS_DATA.push({ name: "SIEGE", timeStr: rows[10] ? rows[10][20].trim() : "08/03 20:00" });
-
-      render();
-      startCountdown();
-    }
-
-    function calculatePoints(p) {
-      let total = 0;
-      for (let k in p.activities) total += p.activities[k] * CONFIG.activities[k].points;
-      for (let k in p.bought) total -= p.bought[k] * (CONFIG.activities[k].jewelCost || 0);
-      return total.toFixed(1);
+        }
+        
+        render();
+        startCountdown();
+      } catch (e) { console.error(e); }
     }
 
     function render() {
-      // Rankings
-      const sorted = Object.entries(PLAYER_DATA)
-        .map(([name, info]) => ({ name, points: parseFloat(calculatePoints(info)), ...info }))
-        .sort((a, b) => b.points - a.points);
-      document.getElementById('leaderboard').innerHTML = sorted.map((p, i) => `
-        <div class="flex items-center justify-between p-4 item-hover cursor-pointer animate-row-in" onclick="openModal('${p.name}')">
+      // Leaderboard
+      const sorted = Object.entries(PLAYER_DATA).sort((a,b) => b[1].points - a[1].points);
+      document.getElementById('leaderboard').innerHTML = sorted.map(([name, data], i) => `
+        <div class="flex justify-between items-center p-4 item-hover">
           <div class="flex items-center gap-3">
-            <span class="font-heading text-[11px] w-5 ${i<3?'rank-'+(i+1):''} font-bold">#${i+1}</span>
-            <span class="font-heading text-lg tracking-wide uppercase ${i<3?'rank-'+(i+1):''} font-bold">${p.name}</span>
-            ${i===0?'<span class="text-xl animate-pulse">👑</span>':''}
+            <span class="font-heading text-xs w-6 ${i<3?'rank-1':''}">#${i+1}</span>
+            <span class="font-heading text-lg uppercase ${i<3?'rank-1':''}">${name}</span>
           </div>
-          <div class="font-display text-[#f3eacb] text-xl font-bold">${p.points}</div>
-        </div>`).join('');
+          <span class="font-display text-xl text-[#f3eacb]">${data.points}</span>
+        </div>
+      `).join('');
 
-      // Boss Timers (ΜΕ ΕΙΚΟΝΙΔΙΑ)
-      document.getElementById('jewels-section').innerHTML = Object.entries(CONFIG.activities).filter(x => x[1].jewelCost).map(x => `
-          <div class="flex items-center justify-between p-2.5 text-[10px] uppercase font-heading item-hover">
+      // Boss Timers
+      document.getElementById('boss-timers').innerHTML = BOSS_DATA.map(b => `
+        <div class="flex justify-between p-2 text-[11px] font-heading uppercase border-b border-white/5">
+          <span class="text-[#6b6070]">${b.name}</span>
+          <span class="text-[#c9a227]">${b.timeStr}</span>
+        </div>
+      `).join('');
+
+      // Epic Armory WITH ICONS
+      document.getElementById('jewels-section').innerHTML = Object.entries(CONFIG.activities)
+        .filter(([key, val]) => val.jewelCost)
+        .map(([key, val]) => `
+          <div class="flex items-center justify-between p-3 item-hover">
             <div class="flex items-center gap-3">
-              <img src="${x[1].img}" class="h-6 w-6 object-contain">
-              <span class="text-[#6b6070]">${x[1].label}</span>
+                <img src="${val.img}" class="w-8 h-8 object-contain drop-shadow-md" onerror="this.src='https://via.placeholder.com/32'">
+                <span class="font-heading text-[10px] uppercase text-[#6b6070]">${val.label}</span>
             </div>
-            <span class="text-[#c9a227] font-bold">${x[1].jewelCost}</span>
-          </div>`).join('');
+            <span class="font-display text-sm text-[#c9a227]">${val.jewelCost} PTS</span>
+          </div>
+        `).join('');
     }
 
-    // Modal, Countdown κτλ ίδια...
+    function startCountdown() {
+      setInterval(() => {
+        const now = new Date();
+        let next = null;
+        let minDiff = Infinity;
+
+        BOSS_DATA.forEach(b => {
+          const parts = b.timeStr.split(' ');
+          if(parts.length < 2) return;
+          const [d, m] = parts[0].split('/');
+          const [hh, mm] = parts[1].split(':');
+          const eventDate = new Date(now.getFullYear(), m-1, d, hh, mm);
+          
+          const diff = eventDate - now;
+          if(diff > 0 && diff < minDiff) {
+            minDiff = diff;
+            next = { name: b.name, diff: diff };
+          }
+        });
+
+        const el = document.getElementById('countdown-timer');
+        if(next) {
+          const h = Math.floor(next.diff / 3600000);
+          const m = Math.floor((next.diff % 3600000) / 60000);
+          const s = Math.floor((next.diff % 60000) / 1000);
+          el.innerText = `${next.name}: ${h}h ${m}m ${s}s`;
+          el.classList.add('text-white');
+        } else {
+          el.innerText = "NO UPCOMING EVENTS";
+          el.classList.add('text-[#6b6070]');
+        }
+      }, 1000);
+    }
+
     init();
   </script>
 </body>

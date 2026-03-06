@@ -36,8 +36,10 @@
 
   <div class="smoke-bg"><div class="smoke-layer"></div></div>
 
-  <header class="relative z-10 py-8 border-b border-[#3d3020] bg-black/60 text-center">
-    <h1 class="font-display text-4xl font-bold tracking-[0.1em] text-[#c9a227]">Animals CP</h1>
+  <header class="relative z-10 py-6 border-b border-[#3d3020] bg-black/60 text-center">
+    <img src="images/animals.png" alt="Animals Logo" class="h-24 mx-auto mb-4 drop-shadow-[0_0_15px_rgba(201,162,39,0.4)]">
+    <h1 class="font-display text-3xl font-bold tracking-[0.1em] text-[#c9a227]">Animals CP</h1>
+    
     <div id="next-event-banner" class="mt-4 inline-block px-8 py-3 bg-black/80 border border-[#c9a227]/50 rounded-sm">
         <p class="font-heading text-[10px] tracking-[0.2em] uppercase text-[#c9a227]/70 mb-1">Next Objective In:</p>
         <div id="countdown-timer" class="font-display text-2xl text-white tracking-widest uppercase">Loading...</div>
@@ -47,7 +49,7 @@
   <main class="relative z-10 max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
     
     <div class="lg:col-span-2 space-y-4">
-      <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase">Elite Rankings</h2>
+      <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-1">Elite Rankings</h2>
       <div id="lb-wrapper" class="bg-black/60 gold-border rounded-sm overflow-y-auto max-h-[600px] shadow-2xl">
         <div id="leaderboard" class="divide-y divide-white/5"></div>
       </div>
@@ -57,26 +59,27 @@
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div class="space-y-4">
-            <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase">Respawn Times</h2>
-            <div id="boss-timers" class="bg-black/60 gold-border rounded-sm p-2 text-[11px]"></div>
+            <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-1">Respawn Times</h2>
+            <div id="boss-timers" class="bg-black/60 gold-border rounded-sm p-2 text-[11px] min-h-[100px]"></div>
           </div>
           <div class="space-y-4">
-            <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase">Acquisition Feed</h2>
-            <div id="acquisition-feed" class="bg-black/60 gold-border rounded-sm p-3 min-h-[150px] text-[10px] space-y-2 uppercase"></div>
+            <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-1">Acquisition Feed</h2>
+            <div id="acquisition-feed" class="bg-black/60 gold-border rounded-sm p-3 min-h-[100px] text-[10px] space-y-2 uppercase"></div>
           </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div class="space-y-4">
-            <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase">Epic Armory</h2>
+            <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase text-center">Epic Armory</h2>
             <div id="jewels-section" class="bg-black/60 gold-border rounded-sm divide-y divide-white/5 shadow-xl"></div>
           </div>
-          <div class="bg-black/60 gold-border p-5 rounded-sm">
-            <h3 class="font-heading text-[#c9a227] text-[11px] border-b border-white/10 mb-3 pb-1 uppercase">Rules of Honor</h3>
+          <div class="bg-black/60 gold-border p-5 rounded-sm h-fit">
+            <h3 class="font-heading text-[#c9a227] text-[11px] border-b border-white/10 mb-3 pb-1 uppercase font-bold">Rules of Honor</h3>
             <ul class="text-[11px] text-[#6b6070] space-y-2 uppercase italic">
                 <li>✦ Baium: Saturday 22:00</li>
                 <li>✦ Siege: Sunday 20:00</li>
                 <li>✦ New Players: <span class="text-[#c9a227] not-italic font-bold">+50 PTS</span></li>
+                <li class="pt-2 text-[9px] text-[#3d3020]">* Times in GMT+2</li>
             </ul>
           </div>
       </div>
@@ -100,60 +103,62 @@
     };
 
     let BOSS_DATA = [];
-    let FEED_DATA = [];
 
     async function init() {
-      const resp = await fetch(SHEET_URL);
-      const csv = await resp.text();
-      const rows = csv.split('\n').map(r => r.split(','));
+      try {
+        const resp = await fetch(SHEET_URL);
+        const csv = await resp.text();
+        const rows = csv.split('\n').map(r => r.split(','));
 
-      // 1. Leaderboard (Όνομα = Col A, Points = Col B)
-      const leaderboardHTML = rows.slice(1, 51).filter(r => r[0]).map((row, i) => `
-        <div class="flex justify-between items-center p-4 item-hover">
-          <div class="flex items-center gap-3">
-            <span class="font-heading text-xs w-6 ${i<3?'rank-1':''}">#${i+1}</span>
-            <span class="font-heading text-lg uppercase ${i<3?'rank-1':''}">${row[0]}</span>
+        // 1. Leaderboard (Col A & B)
+        const leaderboardHTML = rows.slice(1, 60).filter(r => r[0]).map((row, i) => `
+          <div class="flex justify-between items-center p-4 item-hover">
+            <div class="flex items-center gap-3">
+              <span class="font-heading text-xs w-6 ${i<3?'rank-1':''}">#${i+1}</span>
+              <span class="font-heading text-lg uppercase ${i<3?'rank-1':''}">${row[0]}</span>
+            </div>
+            <span class="font-display text-xl text-[#f3eacb]">${row[1] || 0}</span>
           </div>
-          <span class="font-display text-xl text-[#f3eacb]">${row[1] || 0}</span>
-        </div>
-      `).join('');
-      document.getElementById('leaderboard').innerHTML = leaderboardHTML;
+        `).join('');
+        document.getElementById('leaderboard').innerHTML = leaderboardHTML || '<p class="p-4">No data found</p>';
 
-      // 2. Bosses (Col T & U)
-      BOSS_DATA = [];
-      for(let i=2; i<=11; i++) {
-        if(rows[i] && rows[i][19]) {
-            BOSS_DATA.push({ name: rows[i][19].trim(), timeStr: rows[i][20].trim() });
+        // 2. Bosses (Col T & U)
+        BOSS_DATA = [];
+        for(let i=2; i<=11; i++) {
+          if(rows[i] && rows[i][19]) {
+              BOSS_DATA.push({ name: rows[i][19].trim(), timeStr: rows[i][20] ? rows[i][20].trim() : "TBD" });
+          }
         }
-      }
 
-      // 3. Acquisition Feed (Παίρνουμε τα τελευταία 2 άτομα που αγόρασαν κάτι)
-      // Υποθέτουμε ότι αν κάποιος έχει >0 στην αγορά (Col L, M, P), το δείχνουμε
-      FEED_DATA = [];
-      rows.slice(1, 20).forEach(row => {
-          if(row[11] > 0) FEED_DATA.push(`${row[0]} acquired Valakas`);
-          if(row[12] > 0) FEED_DATA.push(`${row[0]} acquired Antharas`);
-      });
-      
-      renderOther();
-      startCountdown();
+        // 3. Acquisition Feed (Έλεγχος για αγορές)
+        let feedHTML = "";
+        rows.slice(1, 40).forEach(row => {
+            if(row[11] > 0) feedHTML += `<div class="p-2 bg-white/5 border-l-2 border-[#c9a227] mb-1">${row[0]} acquired Valakas</div>`;
+            if(row[12] > 0) feedHTML += `<div class="p-2 bg-white/5 border-l-2 border-[#c9a227] mb-1">${row[0]} acquired Antharas</div>`;
+        });
+        document.getElementById('acquisition-feed').innerHTML = feedHTML || '<p class="text-[#3d3020]">No recent items</p>';
+
+        renderStatic();
+        startCountdown();
+      } catch (e) {
+        console.error("Error loading data:", e);
+      }
     }
 
-    function renderOther() {
+    function renderStatic() {
+      // Boss List
       document.getElementById('boss-timers').innerHTML = BOSS_DATA.map(b => `
         <div class="flex justify-between p-2 border-b border-white/5">
-          <span class="text-[#6b6070]">${b.name}</span>
+          <span class="text-[#6b6070] font-bold uppercase">${b.name}</span>
           <span class="text-[#c9a227]">${b.timeStr}</span>
         </div>`).join('');
 
-      document.getElementById('acquisition-feed').innerHTML = FEED_DATA.slice(-3).map(f => `
-        <div class="p-2 bg-white/5 border-l-2 border-[#c9a227] mb-1">${f}</div>`).join('');
-
+      // Armory List
       document.getElementById('jewels-section').innerHTML = Object.entries(CONFIG.activities).map(([key, val]) => `
           <div class="flex items-center justify-between p-3 item-hover">
             <div class="flex items-center gap-3">
-                <img src="${val.img}" class="w-8 h-8 object-contain">
-                <span class="font-heading text-[10px] text-[#6b6070]">${val.label}</span>
+                <img src="${val.img}" class="w-8 h-8 object-contain" onerror="this.style.opacity='0.2'">
+                <span class="font-heading text-[10px] text-[#6b6070] uppercase">${val.label}</span>
             </div>
             <span class="font-display text-sm text-[#c9a227]">${val.jewelCost} PTS</span>
           </div>`).join('');
@@ -164,24 +169,34 @@
         const now = new Date();
         let next = null;
         let minDiff = Infinity;
+
         BOSS_DATA.forEach(b => {
-          const parts = b.timeStr.split(' ');
-          if(parts.length < 2) return;
-          const [d, m] = parts[0].split('/');
-          const [hh, mm] = parts[1].split(':');
-          const evDate = new Date(now.getFullYear(), m-1, d, hh, mm);
-          const diff = evDate - now;
-          if(diff > 0 && diff < minDiff) { minDiff = diff; next = { name: b.name, diff: diff }; }
+          try {
+            const parts = b.timeStr.split(' ');
+            if(parts.length < 2) return;
+            const [d, m] = parts[0].split('/');
+            const [hh, mm] = parts[1].split(':');
+            const evDate = new Date(now.getFullYear(), m-1, d, hh, mm);
+            const diff = evDate - now;
+            if(diff > 0 && diff < minDiff) { minDiff = diff; next = { name: b.name, diff: diff }; }
+          } catch(e) {}
         });
+
+        const el = document.getElementById('countdown-timer');
         if(next) {
           const h = Math.floor(next.diff / 3600000);
           const m = Math.floor((next.diff % 3600000) / 60000);
           const s = Math.floor((next.diff % 60000) / 1000);
-          document.getElementById('countdown-timer').innerText = `${next.name}: ${h}h ${m}m ${s}s`;
+          el.innerText = `${next.name}: ${h}h ${m}m ${s}s`;
+        } else {
+          el.innerText = "WAITING FOR UPDATE";
         }
       }, 1000);
     }
+
     init();
+    // Refresh every 2 minutes
+    setInterval(init, 120000);
   </script>
 </body>
 </html>

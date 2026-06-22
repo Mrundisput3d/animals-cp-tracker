@@ -92,7 +92,7 @@
       
       <div class="space-y-4 flex flex-col">
         <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-2">Epic Respawn Times</h2>
-        <div class="bg-[#12121a]/90 gold-border rounded-sm overflow-hidden shadow-xl">
+        <div id="respawn-box" class="bg-[#12121a]/90 gold-border rounded-sm overflow-hidden shadow-xl">
             <div class="p-3 bg-[#c9a227]/5 border-b border-[#3d3020] text-center font-heading text-[10px] tracking-widest text-[#c9a227]">LIVE DATA</div>
             <div id="boss-timers" class="p-3 space-y-2">
                 </div>
@@ -101,7 +101,7 @@
 
       <div class="space-y-4 flex flex-col">
         <h2 class="font-heading text-[#c9a227] text-xs tracking-[0.3em] uppercase ml-2">Acquisition Feed</h2>
-        <div id="last-purchased" class="bg-[#12121a]/90 gold-border rounded-sm p-4 space-y-4 flex-1 min-h-[250px] overflow-y-auto shadow-xl"></div>
+        <div id="last-purchased" class="bg-[#12121a]/90 gold-border rounded-sm p-4 space-y-4 min-h-[250px] overflow-y-auto shadow-xl"></div>
       </div>
 
       <div class="bg-[#12121a]/90 gold-border rounded-sm p-5 shadow-2xl">
@@ -247,6 +247,7 @@
                 <span class="${statusClass} tracking-widest" data-ts="${b.ts}">${text}</span>
             </div>`;
         }).join('');
+        if (typeof syncFeedHeight === 'function') syncFeedHeight();
     }
 
     // Ανανέωση των countdown κάθε δευτερόλεπτο (χωρίς να ξαναχτίζουμε όλο το DOM)
@@ -364,6 +365,25 @@
         document.getElementById('modal-overlay').classList.remove('hidden');
     }
     window.closeModal = () => document.getElementById('modal-overlay').classList.add('hidden');
+
+    // Κράτα το Acquisition Feed στο ίδιο ύψος με το Epic Respawn Times (με εσωτερικό scroll)
+    function syncFeedHeight() {
+        const box = document.getElementById('respawn-box');
+        const feed = document.getElementById('last-purchased');
+        if (!box || !feed) return;
+        if (window.matchMedia('(min-width: 768px)').matches) {
+            feed.style.maxHeight = box.offsetHeight + 'px';
+        } else {
+            feed.style.maxHeight = ''; // Σε κινητά (στοιβαγμένα) άφησέ το ελεύθερο
+        }
+    }
+    if (window.ResizeObserver) {
+        const ro = new ResizeObserver(syncFeedHeight);
+        const box = document.getElementById('respawn-box');
+        if (box) ro.observe(box);
+    }
+    window.addEventListener('resize', syncFeedHeight);
+
     init();
     listenForRespawnTimes(); // Ξεκινά ανεξάρτητα ώστε τα timers να φορτώνουν ακόμη κι αν το Excel αποτύχει
   </script>

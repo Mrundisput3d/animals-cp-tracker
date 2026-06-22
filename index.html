@@ -154,7 +154,8 @@
     };
 
     let PLAYER_DATA = {};
-    let BOSS_DATA = [];
+    let REGROUP_EVENTS = [];   // Ζωντανά respawn timers από το BrokenMirror (regroups)
+    let REGROUP_UPDATED = null;
 
     async function init() {
       try {
@@ -194,16 +195,77 @@
         };
       }
 
-      BOSS_DATA = [];
-      for (let j = 2; j <= 9; j++) {
-          if(lines[j] && lines[j][19]) {
-              BOSS_DATA.push({
-                  name: lines[j][19].trim(),
-                  time: lines[j][20] ? lines[j][20].trim() : "??:??"
-              });
-          }
-      }
     }
+
+    // === Ζωντανά respawn times από την ίδια Firebase με το BrokenMirror (κόμβος: regroups) ===
+    function listenForRespawnTimes() {
+        db.ref('regroups').on('value', (snap) => {
+            const data = snap.val() || {};
+            REGROUP_UPDATED = data.updatedAt || null;
+            const events = data.events || {};
+            REGROUP_EVENTS = Object.values(events)
+                .filter(e => e && e.respawnTimestamp && categorizeEvent(e.event) === 'boss')
+                .map(e => ({ name: e.event, ts: e.respawnTimestamp * 1000 }))
+                .sort((a, b) => a.ts - b.ts);
+            renderBossTimers();
+        });
+    }
+
+    function categorizeEvent(name) {
+        const n = (name || '').toLowerCase();
+        if (n.startsWith('ch -') || n.startsWith('ch-') || n.includes('clan hall')) return 'clanhall';
+        if (n.startsWith('siege')) return 'siege';
+        return 'boss';
+    }
+
+    function fmtRespawn(ms) {
+        if (ms <= 0) return null; // null => spawned/alive
+        let s = Math.floor(ms / 1000);
+        const d = Math.floor(s / 86400); s %= 86400;
+        const h = Math.floor(s / 3600); s %= 3600;
+        const m = Math.floor(s / 60); s %= 60;
+        if (d > 0) return `${d}d ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+        return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    function renderBossTimers() {
+        const el = document.getElementById('boss-timers');
+        if (!el) return;
+        if (!REGROUP_EVENTS.length) {
+            el.innerHTML = '<p class="text-center text-[10px] text-[#6b6070] py-4 uppercase tracking-widest">Syncing timers...</p>';
+            return;
+        }
+        const now = Date.now();
+        el.innerHTML = REGROUP_EVENTS.map(b => {
+            const remaining = fmtRespawn(b.ts - now);
+            const spawned = remaining === null;
+            const statusClass = spawned ? 'status-alive' : 'status-window';
+            const text = spawned ? 'ALIVE' : remaining;
+            return `
+            <div class="flex justify-between items-center p-2 bg-black/30 rounded border border-[#3d3020]/20 text-[11px] font-heading uppercase">
+                <span class="text-[#6b6070] font-bold">${b.name}</span>
+                <span class="${statusClass} tracking-widest" data-ts="${b.ts}">${text}</span>
+            </div>`;
+        }).join('');
+    }
+
+    // Ανανέωση των countdown κάθε δευτερόλεπτο (χωρίς να ξαναχτίζουμε όλο το DOM)
+    function tickBossTimers() {
+        const now = Date.now();
+        document.querySelectorAll('#boss-timers [data-ts]').forEach(span => {
+            const remaining = fmtRespawn(+span.dataset.ts - now);
+            if (remaining === null) {
+                span.textContent = 'ALIVE';
+                span.classList.remove('status-window');
+                span.classList.add('status-alive');
+            } else {
+                span.textContent = remaining;
+                span.classList.remove('status-alive');
+                span.classList.add('status-window');
+            }
+        });
+    }
+    setInterval(tickBossTimers, 1000);
 
     async function syncWithFirebase() {
         const snap = await db.ref('animalsTracker/').once('value');
@@ -256,16 +318,6 @@
           <div class="font-display text-[#f3eacb] text-xl font-bold">${p.points}</div>
         </div>`).join('');
 
-      document.getElementById('boss-timers').innerHTML = BOSS_DATA.map(b => {
-          const statusClass = b.time.toLowerCase().includes('alive') ? 'status-alive' : 
-                            b.time.toLowerCase().includes('window') ? 'status-window' : 'status-dead';
-          return `
-          <div class="flex justify-between items-center p-2 bg-black/30 rounded border border-[#3d3020]/20 text-[11px] font-heading uppercase">
-              <span class="text-[#6b6070] font-bold">${b.name}</span>
-              <span class="${statusClass} tracking-widest">${b.time}</span>
-          </div>`;
-      }).join('');
-
       let history = [];
       Object.entries(PLAYER_DATA).forEach(([name, info]) => {
         Object.entries(info.bought).forEach(([j, count]) => {
@@ -313,6 +365,7 @@
     }
     window.closeModal = () => document.getElementById('modal-overlay').classList.add('hidden');
     init();
+    listenForRespawnTimes(); // Ξεκινά ανεξάρτητα ώστε τα timers να φορτώνουν ακόμη κι αν το Excel αποτύχει
   </script>
 </body>
 </html>

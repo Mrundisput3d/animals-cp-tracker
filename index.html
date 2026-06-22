@@ -374,7 +374,7 @@
         if (window.matchMedia('(min-width: 768px)').matches) {
             feed.style.maxHeight = box.offsetHeight + 'px';
         } else {
-            feed.style.maxHeight = ''; // Σε κινητά (στοιβαγμένα) άφησέ το ελεύθερο
+            feed.style.maxHeight = '350px'; // Σε κινητά (στοιβαγμένα): σταθερό ύψος με scroll
         }
     }
     if (window.ResizeObserver) {
